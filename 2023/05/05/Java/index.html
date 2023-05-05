@@ -1,0 +1,321 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Java——从入门开始 | 宇宙空间栈</title><meta name="keywords" content="CS"><meta name="author" content="Laporte"><meta name="copyright" content="Laporte"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="完成大数据开发的第一步">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java——从入门开始">
+<meta property="og:url" content="https://laporte12138.github.io/2023/05/05/Java/index.html">
+<meta property="og:site_name" content="宇宙空间栈">
+<meta property="og:description" content="完成大数据开发的第一步">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20230505155251.png">
+<meta property="article:published_time" content="2023-05-05T07:48:10.000Z">
+<meta property="article:modified_time" content="2023-05-05T08:09:56.126Z">
+<meta property="article:author" content="Laporte">
+<meta property="article:tag" content="CS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20230505155251.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://laporte12138.github.io/2023/05/05/Java/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":"ture","highlightLang":true,"highlightHeightLimit":50},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Java——从入门开始',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-05-05 16:09:56'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/微信图片_20220406195033.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw class=&quot;fa-sharp fa-solid fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://music.163.com/#/playlist?id=8266828617"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://space.bilibili.com/456625902?spm_id_from=333.1007.0.0"><i class="fa-fw fas fa-video"></i><span> B站</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 足迹</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20230505155251.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">宇宙空间栈</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw class=&quot;fa-sharp fa-solid fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://music.163.com/#/playlist?id=8266828617"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://space.bilibili.com/456625902?spm_id_from=333.1007.0.0"><i class="fa-fw fas fa-video"></i><span> B站</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 足迹</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Java——从入门开始</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-05-05T07:48:10.000Z" title="发表于 2023-05-05 15:48:10">2023-05-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-05-05T08:09:56.126Z" title="更新于 2023-05-05 16:09:56">2023-05-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Java——从入门开始"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h1><p>Java基础 -&gt; Java 8……-&gt; ?</p>
+<h2 id="Java基础"><a href="#Java基础" class="headerlink" title="Java基础"></a>Java基础</h2><p>​	这是我自学Java基础的部分，参考了韩顺平老师的视频课程<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1fh411y7R8?p=21&vd_source=941245ef2d02dd7402b6f49ee6fbc0c0">【零基础 快速学Java】韩顺平 零基础30天学会Java_哔哩哔哩_bilibili</a>，因为有一点点在学校学的C++基础，因此从头到尾xx便天刷完了，完全小白跟着课一点一点走是完全没问题的。感觉讲的很细很实用而且有项目实战，受益匪浅。</p>
+<p>​	And以下的内容仅是依据我个人的能力、习惯等编写的，有些我认为不重要的或者说我已经掌握了的内容就没有再重复写到这篇笔记中，请前来阅读参考的小伙伴们注意一下。</p>
+<h3 id="Chapter1-简介"><a href="#Chapter1-简介" class="headerlink" title="Chapter1 简介"></a>Chapter1 简介</h3><h4 id="Java特点"><a href="#Java特点" class="headerlink" title="Java特点"></a>Java特点</h4><ul>
+<li>面向对象的</li>
+<li>强类型机制、异常处理、垃圾自动收集等保证Java程序的健壮</li>
+<li>跨平台的</li>
+<li>解释型的</li>
+<li>对字符大小写、输出时空格敏感</li>
+<li>；结束不可省</li>
+<li>一个源文件最多一个public类，其他类个数不限</li>
+<li>文件名按public类名命名</li>
+<li>源文件以.java为扩展名，源文件的基本组成部分是类（class）</li>
+<li>执行程序的入口是main（）方法，且入口可以是非public的main（）方法</li>
+</ul>
+<p>Java开发环境、工具等</p>
+<p>​	JDK（java开发工具包，开发者必备）&#x3D;JRE+java开发工具（java、javac、javadoc等等）</p>
+<p>​	JRE（java运行环境，非开发者只需此即可运行java程序）&#x3D;JVM（java虚拟机，能在不同操作系统上跑出来就靠它了）+java核心类库</p>
+<h4 id="转义字符"><a href="#转义字符" class="headerlink" title="转义字符"></a>转义字符</h4><p>​	· 回车：光标回到原来位置，继续输出。eg：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;Hello\rworld!&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​	显示结果：</p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1658223808338.png"></p>
+<p>​	而如果加入“\n”换行符一起使用，则可以起到普遍意义上“回车”的效果（\n\r顺序先后无影响）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;Hello\n\rworld!&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​	显示结果：</p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1658223915447.png"></p>
+<h4 id="文档注释（类和方法的注释）"><a href="#文档注释（类和方法的注释）" class="headerlink" title="文档注释（类和方法的注释）"></a>文档注释（类和方法的注释）</h4><p>​	文档说明注释允许你在程序中嵌入关于程序的信息，通常以 &#x2F;** 开始，结构体中以 * 开启每一行，以 *&#x2F; 结束。结构体部分写入注释信息，常见的有@author，@version，@see等等（这部分可参考开发文档）</p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1658237747319.png"></p>
+<p>​	调用语法：javadoc -d 目录（最后一步缩小到文件夹） -author（更换为你写的内容） -version（更换为你写的内容） Hello.java（替换为你的java源文件名称）</p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1658237862406.png"></p>
+<h5 id="本章作业"><a href="#本章作业" class="headerlink" title="本章作业"></a>本章作业</h5><p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1658244895297.png"></p>
+<h3 id="Chapter2-变量"><a href="#Chapter2-变量" class="headerlink" title="Chapter2 变量"></a>Chapter2 变量</h3><h4 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h4><p>​	Java里默认整型为int类型，转换成别的类型时要加相应的开头字母（如Long就加上L）：</p>
+<p>​	“Long a &#x3D; 188L”</p>
+<h4 id="浮点型"><a href="#浮点型" class="headerlink" title="浮点型"></a>浮点型</h4><p>​	浮点数&#x3D;符号位+指数位+尾数位</p>
+<p>​	Java里默认浮点数为double类型，转换情况同整型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 对浮点数的运算结果要小心，尤其是在做两个浮点数的运算结果的比较的时候，因为不同的数据类型会得到不同的答案（如<span class="type">double</span> <span class="variable">num</span> <span class="operator">=</span> <span class="number">8.1</span>/<span class="number">3</span> 得到的不是<span class="number">2.7</span>而是十分接近<span class="number">2.7</span>的一个小数），因此在比较时，我们使用两数之差的绝对值是否小于一个很小的值来判断两数是否相等。</span><br></pre></td></tr></table></figure>
+
+<h4 id="字符型"><a href="#字符型" class="headerlink" title="字符型"></a>字符型</h4><p>​	字符型用单引号引用。</p>
+<p>​	字符型可以参与运算（‘a’+10   输出107）</p>
+<h4 id="各种编码"><a href="#各种编码" class="headerlink" title="各种编码"></a>各种编码</h4><p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1658416706243.png"></p>
+<h4 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h4><p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1658503341004.png"></p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1658503275050.png"></p>
+<h4 id="强制转换"><a href="#强制转换" class="headerlink" title="强制转换"></a>强制转换</h4><p>​	· 强制转换是将高精度&#x3D;&gt;低精度，大数&#x3D;&gt;小数</p>
+<p>​	· 强制转换优先级是就近原则</p>
+<h4 id="字符串型"><a href="#字符串型" class="headerlink" title="字符串型"></a>字符串型</h4><p>​	· 数字&#x3D;&gt;字符串：加引号“”</p>
+<p>​	· 字符串&#x3D;&gt;数字：使用相应的转换类</p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1658498209723.png"></p>
+<p>​	输出为：</p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1658498232535.png"></p>
+<h4 id="本章作业-1"><a href="#本章作业-1" class="headerlink" title="本章作业"></a>本章作业</h4><p>​	1. 字符型拼接得到的是数字而非字符串</p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1658501126955.png"></p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1658501164518.png"></p>
+<ol start="2">
+<li><p>自行修改快捷键</p>
+<p>首选项&#x3D;&gt;快捷键</p>
+<p>ctrl+f后输入你想寻找的快捷键组合</p>
+<p>找到后复制整行到用户代码中</p>
+<p>修改相应功能后保存，运行即可</p>
+</li>
+<li><p>​	<img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1658503148713.png"></p>
+</li>
+</ol>
+<h3 id="Chapter3-运算符"><a href="#Chapter3-运算符" class="headerlink" title="Chapter3 运算符"></a>Chapter3 运算符</h3><h4 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 注意，<span class="type">double</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span>/<span class="number">4</span> 输出<span class="number">2.0</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="自增与自减"><a href="#自增与自减" class="headerlink" title="自增与自减"></a>自增与自减</h4><p>​	i++和++i的原则：作为独立语句使用时效果相同，作为表达式使用时效果不同</p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1658504171405.png"></p>
+<p>​		此时输出为 j&#x3D;k&#x3D;9（先j++，再j&#x3D;k）</p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1658504224277.png"></p>
+<p>​	此时输出为 k&#x3D;8，j&#x3D;9（先j&#x3D;k，再j++）</p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1658547688301.png"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 此时输出为<span class="number">1</span>（临时变量temp保存了i的值，temp没有被改写因此i仍旧为<span class="number">1</span>，这里在后面条件判断时还会涉及到，谨记！），但i实际已经为<span class="number">2</span>了</span><br></pre></td></tr></table></figure>
+
+<h4 id="逻辑运算符（后期可以画一个表格）"><a href="#逻辑运算符（后期可以画一个表格）" class="headerlink" title="逻辑运算符（后期可以画一个表格）"></a>逻辑运算符（后期可以画一个表格）</h4><ul>
+<li>与运算</li>
+</ul>
+<p>​	逻辑与&amp;：a&amp;b   不论什么情况a和b都要执行</p>
+<p>​	短路与&amp;&amp;：a&amp;&amp;b    a结果错误就不执行b，直接跳出；a和b结果均正确则ab都执行；a正确b错误，ab均执行</p>
+<ul>
+<li>或运算</li>
+</ul>
+<p>​	逻辑或| : a|b    不论什么情况a和b都执行</p>
+<p>​	短路或||： a||b     a结果正确直接跳出；a结果不正确看b</p>
+<p>   <em>练习：</em></p>
+<p>​	1.区别逻辑与短路</p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1658547924500.png"></p>
+<p>​      2.输出为50（注意“&#x3D;”和“&#x3D;&#x3D;”）</p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1658548031165.png"></p>
+<h4 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h4><p>​	赋值运算符会进行类型转换  byte b &#x3D; 2; b+&#x3D;3; b++(按理来说后两步都是int赋给byte会报错，但是这里因为自带强制转换而没有)				&#x2F;&#x2F;<em>byte类型和short类型在参与运算时会自动变为int类型</em></p>
+<p>标识符命名规范</p>
+<p>​	包名：全小写</p>
+<p>​	类、接口名：大驼峰</p>
+<p>​	变量、方法名：小驼峰</p>
+<p>​	常量名：所有字母都大写，多单词时下划线连接</p>
+<p>​	……</p>
+<h4 id="位运算符（补码运算）"><a href="#位运算符（补码运算）" class="headerlink" title="位运算符（补码运算）"></a>位运算符（补码运算）</h4><p>​	“&gt;&gt;”  算数左移，低位溢出、高位符号位不变，本质为除&#x2F;几次2</p>
+<p>​	“&lt;&lt;” 算数右移，符号位不变，低位补0，本质为乘*几次2</p>
+<p>​	“&gt;&gt;&gt;”逻辑右移，低位溢出，高位补零</p>
+<p>​	无逻辑左移</p>
+<h4 id="本章作业-2"><a href="#本章作业-2" class="headerlink" title="本章作业"></a>本章作业</h4><p>​	输出输入的内容</p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1659022270072.png"></p>
+<h3 id="chapter4-控制结构"><a href="#chapter4-控制结构" class="headerlink" title="chapter4 控制结构"></a>chapter4 控制结构</h3><h3 id="chapter5-数组"><a href="#chapter5-数组" class="headerlink" title="chapter5 数组"></a>chapter5 数组</h3><p>​	数组是可以存放多个同一类型的数据，是引用类型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span>[]: <span class="type">double</span>类型的数组</span><br><span class="line"><span class="type">char</span>[] chars = <span class="keyword">new</span> <span class="title class_">char</span>[<span class="number">26</span>]</span><br></pre></td></tr></table></figure>
+
+<p>​	eg：数组打印大写字母A~Z</p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20220914181312.png"></p>
+<ul>
+<li>java中不用引入交换变量temp</li>
+</ul>
+<hr>
+<h4 id="数组赋值机制"><a href="#数组赋值机制" class="headerlink" title="数组赋值机制"></a>数组赋值机制</h4><p>​	基本数据类型赋值是拷贝，n2不会影响n1的值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">n1</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">n2</span> <span class="operator">=</span> n1;</span><br><span class="line">n2 = <span class="number">70</span>;                      <span class="comment">//最终得到n1为10，n2为70</span></span><br></pre></td></tr></table></figure>
+
+<p>​	但数组赋值是地址，引用传递（指针）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] arr1 = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;;</span><br><span class="line"><span class="type">int</span>[] arr2 = arr1;</span><br><span class="line">arr[<span class="number">0</span>] = <span class="number">10</span>;                 <span class="comment">//最终arr1为10，2，3</span></span><br></pre></td></tr></table></figure>
+
+<p>​	解释：</p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20220915151943.png"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建新地址：</span></span><br><span class="line"><span class="type">int</span>[] arr2 = <span class="keyword">new</span> <span class="title class_">int</span>[arr1.length]；</span><br><span class="line"></span><br><span class="line"><span class="comment">//遍历拷贝打印</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;arr1.length; i++)&#123;</span><br><span class="line">	arr2[i] = arr1[i];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//修改值</span></span><br><span class="line">arr2[<span class="number">0</span>] = <span class="number">100</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="小技巧1"><a href="#小技巧1" class="headerlink" title="小技巧1"></a>小技巧1</h4><p>​	设置参数法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> -<span class="number">1</span>;</span><br><span class="line">在接下来代码中遇到不同情况改变index的值；</span><br><span class="line"><span class="keyword">if</span>（index = -<span class="number">1</span>）&#123;</span><br><span class="line">	说明没有遇到上述改变</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="字符串-x2F-数字相等的判断"><a href="#字符串-x2F-数字相等的判断" class="headerlink" title="字符串&#x2F;数字相等的判断"></a>字符串&#x2F;数字相等的判断</h4><p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20220920155925.png"></p>
+<hr>
+<h4 id="内容输入"><a href="#内容输入" class="headerlink" title="内容输入"></a>内容输入</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"><span class="type">Scanner</span> <span class="variable">myScanner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">System.out.print(<span class="string">&quot;请输入名称:&quot;</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">FindName</span> <span class="operator">=</span> myScanner.next();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="二维数组"><a href="#二维数组" class="headerlink" title="二维数组"></a>二维数组</h4><p>定义</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> <span class="type">int</span>[][] arr = &#123;&#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>&#125;,&#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>&#125;,&#123;<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>&#125;&#125;</span><br><span class="line"><span class="number">2.</span> <span class="type">int</span> arr[][] = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">2</span>][<span class="number">3</span>]        <span class="comment">//产生两行三列（不同于索引号的从零开始计算）</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;arr.length; i++)&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>; j&lt;arr[i].length; j++)&#123;</span><br><span class="line">		Syystem.out.print(arr[i][j] + <span class="string">&quot;\t&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	System.out.println();        <span class="comment">//换行输出</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>二维数组元素个数：arr.length</p>
+<p>访问第3行第四列元素：arr[2] [3]</p>
+<p>开空间</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arr[i] = <span class="keyword">new</span> <span class="title class_">int</span>[i+<span class="number">1</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="chapter6-类和对象"><a href="#chapter6-类和对象" class="headerlink" title="chapter6 类和对象"></a>chapter6 类和对象</h3><h4 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h4><p>​	单独变量解决面临数据量大的问题</p>
+<p>​	利用数组面临数据类型单一、变量名和命名的内在联系对应关系不明确的问题（只能通过下标）</p>
+<hr>
+<h4 id="创建类"><a href="#创建类" class="headerlink" title="创建类"></a>创建类</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Cat</span>&#123;</span><br><span class="line">	<span class="type">int</span> age；</span><br><span class="line">	<span class="type">char</span> sex；</span><br><span class="line">	String name；</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Cat</span> <span class="variable">cat1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Cat</span>();    <span class="comment">//Cat cat产生一个空的栈，new Cat（）分配堆内存且栈不再为空</span></span><br><span class="line">cat1.name = <span class="string">&quot;xiaobai&quot;</span>;   <span class="comment">//属性</span></span><br><span class="line">System.out.print(cat1.name)     <span class="comment">//调用</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>​	类是对象的模板，对象是类的个体；类是抽象的，对象是具体的。</p>
+<hr>
+<h4 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h4><p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20220921205745.png"></p>
+<hr>
+<h4 id="属性注意细节"><a href="#属性注意细节" class="headerlink" title="属性注意细节"></a>属性注意细节</h4><p>​	访问修饰符</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span>、<span class="keyword">private</span>、<span class="keyword">protected</span>、默认</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h4><h5 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//class Person&#123;</span></span><br><span class="line"><span class="comment">//	String name;</span></span><br><span class="line"><span class="comment">//	int m;</span></span><br><span class="line">	</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">speak</span><span class="params">()</span>&#123;</span><br><span class="line">        system.out.print(<span class="string">&quot;我是一个好人&quot;</span>)；</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">cal02</span><span class="params">(<span class="type">int</span> n)</span>&#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=n; i++)&#123;</span><br><span class="line">            result += i;</span><br><span class="line">        &#125;</span><br><span class="line">        system.out.println(<span class="string">&quot;result&quot;</span>)</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getSum</span><span class="params">(<span class="type">int</span> num1, <span class="type">int</span> num2)</span>&#123;       <span class="comment">//返回一个int的值</span></span><br><span class="line">    	result = num1+num2;</span><br><span class="line">    	<span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Person</span> <span class="variable">p1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Person</span>;</span><br><span class="line">p1.person;</span><br><span class="line">p1.cal02(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="variable">resturnSum</span> <span class="operator">=</span> p1.getSum(<span class="number">3</span>,<span class="number">4</span>);     <span class="comment">//把return的值付给returnSum</span></span><br><span class="line">system.out.println(resturnSum);		 <span class="comment">//输出</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h5><p>​		1.复用</p>
+<p>​		2.将细节封装起来，利于开发</p>
+<h5 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h5><p>​		1. 一个方法最多有一个返回值，但可以用数组返回多个</p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20221023175828.png"></p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20221023180046.png"></p>
+<p>​																	 用数组类型来接收</p>
+<p>​	2. 有返回类型必须以return语句结尾</p>
+<p>​	3. 没有返回类型和不用return语句</p>
+<h4 id="经典方法——递归"><a href="#经典方法——递归" class="headerlink" title="经典方法——递归"></a>经典方法——递归</h4><h5 id="走迷宫"><a href="#走迷宫" class="headerlink" title="走迷宫"></a>走迷宫</h5><p>​	代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MiGong</span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"></span><br><span class="line">		<span class="type">int</span>[][] map = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">8</span>][<span class="number">7</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">6</span>; i++)&#123;				<span class="comment">//首尾行为障碍物（0可通行，1为障碍）</span></span><br><span class="line">			map [<span class="number">0</span>][i] = <span class="number">1</span>;</span><br><span class="line">			map [<span class="number">7</span>][i] = <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">8</span>; i++)&#123;				<span class="comment">//首尾列为障碍物</span></span><br><span class="line">			map[i][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">			map[i][<span class="number">6</span>] = <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		map[<span class="number">3</span>][<span class="number">1</span>] = <span class="number">1</span>;						<span class="comment">//没有规律的点单独设置</span></span><br><span class="line">		map[<span class="number">3</span>][<span class="number">2</span>] = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">		System.out.println(<span class="string">&quot;初始地图&quot;</span>);		<span class="comment">//!print()之后需要分号</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;map.length; i++)&#123;			<span class="comment">//打印</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>; j&lt;map[i].length; j++)&#123;</span><br><span class="line">				System.out.print(map[i][j]+<span class="string">&quot; &quot;</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			System.out.println();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="keyword">class</span> <span class="title class_">T</span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">/* 1.findway方法找路</span></span><br><span class="line"><span class="comment">		   2.如果找到，返回true，否则返回false</span></span><br><span class="line"><span class="comment">		   3.map是二维数组，表示迷宫</span></span><br><span class="line"><span class="comment">		   4.1是障碍物，2表示探测过可以走的路，3表示探测过但不能走的路，0代表通路</span></span><br><span class="line"><span class="comment">		   5.找路策略：右-&gt;下-&gt;上-&gt;左</span></span><br><span class="line"><span class="comment">		*/</span></span><br><span class="line">			<span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">findway</span><span class="params">(<span class="type">int</span>[][] map, <span class="type">int</span> i, <span class="type">int</span> j)</span>&#123;		<span class="comment">//!函数中以逗号相隔</span></span><br><span class="line"></span><br><span class="line">				<span class="keyword">if</span>(map[<span class="number">6</span>][<span class="number">5</span>] == <span class="number">2</span>)&#123;									<span class="comment">//当终点为2时跳出递归</span></span><br><span class="line">					<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span>&#123;											<span class="comment">//当终点不是2时，执行如下代码</span></span><br><span class="line"></span><br><span class="line">					<span class="keyword">if</span>(map[i][j] == <span class="number">0</span>)&#123;							<span class="comment">//首先起点要在通路，即可以走</span></span><br><span class="line">						map [i][j] = <span class="number">2</span>;							<span class="comment">//设某点（起点）是2</span></span><br><span class="line">						<span class="keyword">if</span>(findway(map, i, j+<span class="number">1</span>))&#123;				<span class="comment">//执行递归，先向右探索</span></span><br><span class="line">							<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">						&#125;</span><br><span class="line">						<span class="keyword">else</span> <span class="keyword">if</span>(findway(map, i+<span class="number">1</span>, j))&#123;					<span class="comment">//再向上</span></span><br><span class="line">							<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">						&#125;</span><br><span class="line">						<span class="keyword">else</span> <span class="keyword">if</span>(findway(map, i-<span class="number">1</span>, j))&#123;					<span class="comment">//再向上</span></span><br><span class="line">							<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">						&#125;</span><br><span class="line">						<span class="keyword">else</span> <span class="keyword">if</span>(findway(map, i, j-<span class="number">1</span>))&#123;					<span class="comment">//最后向左</span></span><br><span class="line">							<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">						&#125;</span><br><span class="line">						<span class="keyword">else</span>&#123;							<span class="comment">//如果都走不通，此路标记为3，跳出递归</span></span><br><span class="line">							map [i][j] = <span class="number">3</span>;</span><br><span class="line">							<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">else</span>&#123;								<span class="comment">//其他点(1，2，3)也无法走出迷宫</span></span><br><span class="line">						<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="type">T</span> <span class="variable">t1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">T</span>();									<span class="comment">//生成类</span></span><br><span class="line">		t1.findway(map, <span class="number">1</span>, <span class="number">1</span>);							<span class="comment">//把地图、起始点传入函数</span></span><br><span class="line">		System.out.println(<span class="string">&quot;成功走出&quot;</span>);</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;map.length; i++)&#123;				<span class="comment">//打印</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>; j&lt;map[i].length; j++)&#123;</span><br><span class="line">				System.out.print(map[i][j]+<span class="string">&quot; &quot;</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			System.out.println();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>​	实现效果：</p>
+<p><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20230504214037.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://laporte12138.github.io">Laporte</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://laporte12138.github.io/2023/05/05/Java/">https://laporte12138.github.io/2023/05/05/Java/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://laporte12138.github.io" target="_blank">宇宙空间栈</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CS/">CS</a></div><div class="post_share"><div class="social-share" data-image="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20230505155251.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/05/02/%E6%81%8B%E7%88%B1%E5%9C%B0%E5%9B%BE/"><img class="next-cover" src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20230502233830.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">恋爱地图</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/09/21/%E7%BB%93%E6%9E%84%E4%BD%93%E5%92%8C%E7%B1%BB%E7%9A%84%E5%BC%82%E5%90%8C/" title="结构体与类的异同"><img class="cover" src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20220921232131.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-21</div><div class="title">结构体与类的异同</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/微信图片_20220406195033.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Laporte</div><div class="author-info__description">从不偏科</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Laporte12138" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="联系我"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://Laporte12138.github.io" target="_blank" title="主页"><i class="fa-solid fa-house"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">通信、CS、社科、足球</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java"><span class="toc-number">1.</span> <span class="toc-text">Java</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E5%9F%BA%E7%A1%80"><span class="toc-number">1.1.</span> <span class="toc-text">Java基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Chapter1-%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.1.</span> <span class="toc-text">Chapter1 简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java%E7%89%B9%E7%82%B9"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">Java特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">转义字符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E6%B3%A8%E9%87%8A%EF%BC%88%E7%B1%BB%E5%92%8C%E6%96%B9%E6%B3%95%E7%9A%84%E6%B3%A8%E9%87%8A%EF%BC%89"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">文档注释（类和方法的注释）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9C%AC%E7%AB%A0%E4%BD%9C%E4%B8%9A"><span class="toc-number">1.1.1.3.1.</span> <span class="toc-text">本章作业</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Chapter2-%E5%8F%98%E9%87%8F"><span class="toc-number">1.1.2.</span> <span class="toc-text">Chapter2 变量</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B4%E5%9E%8B"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">整型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E5%9E%8B"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">浮点型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E5%9E%8B"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">字符型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%84%E7%A7%8D%E7%BC%96%E7%A0%81"><span class="toc-number">1.1.2.4.</span> <span class="toc-text">各种编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.1.2.5.</span> <span class="toc-text">类型转换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.1.2.6.</span> <span class="toc-text">强制转换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%9E%8B"><span class="toc-number">1.1.2.7.</span> <span class="toc-text">字符串型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E7%AB%A0%E4%BD%9C%E4%B8%9A-1"><span class="toc-number">1.1.2.8.</span> <span class="toc-text">本章作业</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Chapter3-%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.1.3.</span> <span class="toc-text">Chapter3 运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">算术运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%A2%9E%E4%B8%8E%E8%87%AA%E5%87%8F"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">自增与自减</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6%EF%BC%88%E5%90%8E%E6%9C%9F%E5%8F%AF%E4%BB%A5%E7%94%BB%E4%B8%80%E4%B8%AA%E8%A1%A8%E6%A0%BC%EF%BC%89"><span class="toc-number">1.1.3.3.</span> <span class="toc-text">逻辑运算符（后期可以画一个表格）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.1.3.4.</span> <span class="toc-text">赋值运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%EF%BC%88%E8%A1%A5%E7%A0%81%E8%BF%90%E7%AE%97%EF%BC%89"><span class="toc-number">1.1.3.5.</span> <span class="toc-text">位运算符（补码运算）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E7%AB%A0%E4%BD%9C%E4%B8%9A-2"><span class="toc-number">1.1.3.6.</span> <span class="toc-text">本章作业</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chapter4-%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.4.</span> <span class="toc-text">chapter4 控制结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chapter5-%E6%95%B0%E7%BB%84"><span class="toc-number">1.1.5.</span> <span class="toc-text">chapter5 数组</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E8%B5%8B%E5%80%BC%E6%9C%BA%E5%88%B6"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">数组赋值机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%8F%E6%8A%80%E5%B7%A71"><span class="toc-number">1.1.5.2.</span> <span class="toc-text">小技巧1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2-x2F-%E6%95%B0%E5%AD%97%E7%9B%B8%E7%AD%89%E7%9A%84%E5%88%A4%E6%96%AD"><span class="toc-number">1.1.5.3.</span> <span class="toc-text">字符串&#x2F;数字相等的判断</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AE%B9%E8%BE%93%E5%85%A5"><span class="toc-number">1.1.5.4.</span> <span class="toc-text">内容输入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84"><span class="toc-number">1.1.5.5.</span> <span class="toc-text">二维数组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chapter6-%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.1.6.</span> <span class="toc-text">chapter6 类和对象</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%AD%90"><span class="toc-number">1.1.6.1.</span> <span class="toc-text">引子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%B1%BB"><span class="toc-number">1.1.6.2.</span> <span class="toc-text">创建类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.1.6.3.</span> <span class="toc-text">创建对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="toc-number">1.1.6.4.</span> <span class="toc-text">对象的内存布局</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E6%B3%A8%E6%84%8F%E7%BB%86%E8%8A%82"><span class="toc-number">1.1.6.5.</span> <span class="toc-text">属性注意细节</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.6.6.</span> <span class="toc-text">方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0"><span class="toc-number">1.1.6.6.1.</span> <span class="toc-text">添加</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%B0%83%E7%94%A8"><span class="toc-number">1.1.6.6.2.</span> <span class="toc-text">调用</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BC%98%E5%8A%BF"><span class="toc-number">1.1.6.6.3.</span> <span class="toc-text">优势</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%86%E8%8A%82"><span class="toc-number">1.1.6.6.4.</span> <span class="toc-text">细节</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%8F%E5%85%B8%E6%96%B9%E6%B3%95%E2%80%94%E2%80%94%E9%80%92%E5%BD%92"><span class="toc-number">1.1.6.7.</span> <span class="toc-text">经典方法——递归</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%B5%B0%E8%BF%B7%E5%AE%AB"><span class="toc-number">1.1.6.7.1.</span> <span class="toc-text">走迷宫</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/05/05/Java/" title="Java——从入门开始"><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20230505155251.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java——从入门开始"/></a><div class="content"><a class="title" href="/2023/05/05/Java/" title="Java——从入门开始">Java——从入门开始</a><time datetime="2023-05-05T07:48:10.000Z" title="发表于 2023-05-05 15:48:10">2023-05-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/02/%E6%81%8B%E7%88%B1%E5%9C%B0%E5%9B%BE/" title="恋爱地图"><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20230502233830.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="恋爱地图"/></a><div class="content"><a class="title" href="/2023/05/02/%E6%81%8B%E7%88%B1%E5%9C%B0%E5%9B%BE/" title="恋爱地图">恋爱地图</a><time datetime="2023-05-02T15:28:22.000Z" title="发表于 2023-05-02 23:28:22">2023-05-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/31/%E9%9B%85%E6%80%9D%E5%86%99%E4%BD%9C/" title="雅思写作"><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20230131143807.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="雅思写作"/></a><div class="content"><a class="title" href="/2023/01/31/%E9%9B%85%E6%80%9D%E5%86%99%E4%BD%9C/" title="雅思写作">雅思写作</a><time datetime="2023-01-31T06:39:49.000Z" title="发表于 2023-01-31 14:39:49">2023-01-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/15/%E6%B2%9F%E9%80%9Aby%E6%9B%BE%E4%BB%95%E5%BC%BA/" title="沟通——中国式关系的艺术"><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20230115231111.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="沟通——中国式关系的艺术"/></a><div class="content"><a class="title" href="/2023/01/15/%E6%B2%9F%E9%80%9Aby%E6%9B%BE%E4%BB%95%E5%BC%BA/" title="沟通——中国式关系的艺术">沟通——中国式关系的艺术</a><time datetime="2023-01-15T15:10:03.000Z" title="发表于 2023-01-15 23:10:03">2023-01-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/25/%E5%82%85%E9%87%8C%E5%8F%B6%E7%BA%A7%E6%95%B0%E5%92%8C%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/" title="傅里叶级数和傅里叶变换"><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20220925182352.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="傅里叶级数和傅里叶变换"/></a><div class="content"><a class="title" href="/2022/09/25/%E5%82%85%E9%87%8C%E5%8F%B6%E7%BA%A7%E6%95%B0%E5%92%8C%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/" title="傅里叶级数和傅里叶变换">傅里叶级数和傅里叶变换</a><time datetime="2022-09-25T12:01:09.000Z" title="发表于 2022-09-25 20:01:09">2022-09-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Laporte</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">宇宙空间栈</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
