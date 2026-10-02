@@ -1,0 +1,422 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>【网络体系搭建】V2：VLAN和STP | 宇宙空间栈</title><meta name="keywords" content="CCIE,VLAN,STP"><meta name="author" content="Laporte"><meta name="copyright" content="Laporte"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="数据中心网络从0到1的第二步">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【网络体系搭建】V2：VLAN和STP">
+<meta property="og:url" content="https://laporte12138.github.io/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V2%EF%BC%9AVLAN%E5%92%8CSTP/index.html">
+<meta property="og:site_name" content="宇宙空间栈">
+<meta property="og:description" content="数据中心网络从0到1的第二步">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg">
+<meta property="article:published_time" content="2026-10-02T03:33:59.000Z">
+<meta property="article:modified_time" content="2026-10-02T04:05:14.789Z">
+<meta property="article:author" content="Laporte">
+<meta property="article:tag" content="CCIE">
+<meta property="article:tag" content="VLAN">
+<meta property="article:tag" content="STP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://laporte12138.github.io/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V2%EF%BC%9AVLAN%E5%92%8CSTP/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":"ture","highlightLang":true,"highlightHeightLimit":50},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【网络体系搭建】V2：VLAN和STP',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-10-02 12:05:14'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/微信图片_20220406195033.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw class=&quot;fa-sharp fa-solid fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://music.163.com/#/playlist?id=8266828617"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://space.bilibili.com/456625902?spm_id_from=333.1007.0.0"><i class="fa-fw fas fa-video"></i><span> B站</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">宇宙空间栈</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw class=&quot;fa-sharp fa-solid fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://music.163.com/#/playlist?id=8266828617"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://space.bilibili.com/456625902?spm_id_from=333.1007.0.0"><i class="fa-fw fas fa-video"></i><span> B站</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【网络体系搭建】V2：VLAN和STP</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-10-02T03:33:59.000Z" title="发表于 2026-10-02 11:33:59">2026-10-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-10-02T04:05:14.789Z" title="更新于 2026-10-02 12:05:14">2026-10-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B/">网络工程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="【网络体系搭建】V2：VLAN和STP"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="1-VLAN：为什么一个-Switch-还要划分广播域"><a href="#1-VLAN：为什么一个-Switch-还要划分广播域" class="headerlink" title="1. VLAN：为什么一个 Switch 还要划分广播域"></a>1. VLAN：为什么一个 Switch 还要划分广播域</h2><p>基础拓扑：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PC1 VLAN10 ── SW1 ───── SW2 ── PC3 VLAN10</span><br><span class="line">                  Trunk</span><br><span class="line">                              └─ PC4 VLAN20</span><br></pre></td></tr></table></figure>
+
+<p>VLAN 的核心作用：</p>
+<blockquote>
+<p>在同一套物理交换网络上划分多个逻辑二层广播域。</p>
+</blockquote>
+<p>因此：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">VLAN10</span><br><span class="line">→ 一个 Broadcast Domain</span><br><span class="line"></span><br><span class="line">VLAN20</span><br><span class="line">→ 另一个 Broadcast Domain</span><br></pre></td></tr></table></figure>
+
+<p>即使设备接在同一台 Switch：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">不同 VLAN</span><br><span class="line">→ 默认不能直接二层通信</span><br></pre></td></tr></table></figure>
+
+<p>Switch MAC Table 也不是单纯：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MAC → Port</span><br></pre></td></tr></table></figure>
+
+<p>而是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VLAN + MAC → Port</span><br></pre></td></tr></table></figure>
+
+<p>所以相同 MAC 理论上可以在不同 VLAN 中拥有不同转发表项。</p>
+<h2 id="2-Access-Port：终端如何进入-VLAN"><a href="#2-Access-Port：终端如何进入-VLAN" class="headerlink" title="2. Access Port：终端如何进入 VLAN"></a>2. Access Port：终端如何进入 VLAN</h2><p>普通 PC 通常发送：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Untagged Ethernet Frame</span><br></pre></td></tr></table></figure>
+
+<p>Access Port 配置：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">interface e0/1</span><br><span class="line"> switchport mode access</span><br><span class="line"> switchport access vlan 10</span><br></pre></td></tr></table></figure>
+
+<p>PC 发来的 Frame 本身没有 802.1Q Tag。</p>
+<p>Switch 从 Access Port 收到后：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Untagged Frame</span><br><span class="line">      ↓</span><br><span class="line">根据接口配置</span><br><span class="line">      ↓</span><br><span class="line">内部归类为 VLAN10</span><br></pre></td></tr></table></figure>
+
+<p>这里要区分：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">802.1Q Tag</span><br><span class="line">→ 真正在链路上传输的字段</span><br><span class="line"></span><br><span class="line">VLAN Metadata</span><br><span class="line">→ Switch 内部处理 Frame 时记录的 VLAN 信息</span><br></pre></td></tr></table></figure>
+
+<p>所以：</p>
+<blockquote>
+<p>Access Port 收到 Untagged Frame，不代表 Switch 内部“不知道它属于哪个 VLAN”。</p>
+</blockquote>
+<h2 id="3-Trunk-与-802-1Q"><a href="#3-Trunk-与-802-1Q" class="headerlink" title="3. Trunk 与 802.1Q"></a>3. Trunk 与 802.1Q</h2><p>两台 Switch 之间如果要同时承载：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">VLAN10</span><br><span class="line">VLAN20</span><br><span class="line">VLAN30</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>通常使用 Trunk。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SW1 ================= SW2</span><br><span class="line">          Trunk</span><br></pre></td></tr></table></figure>
+
+<p>802.1Q 会在 Ethernet Frame 中插入 4 Byte Tag。</p>
+<p>简化结构：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">DMAC</span><br><span class="line">SMAC</span><br><span class="line">802.1Q Tag</span><br><span class="line">Original EtherType</span><br><span class="line">Payload</span><br><span class="line">FCS</span><br></pre></td></tr></table></figure>
+
+<p>802.1Q Tag：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TPID</span><br><span class="line">+</span><br><span class="line">TCI</span><br></pre></td></tr></table></figure>
+
+<p>常见：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TPID = 0x8100</span><br></pre></td></tr></table></figure>
+
+<p>TCI：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PCP  3 bit</span><br><span class="line">DEI  1 bit</span><br><span class="line">VID 12 bit</span><br></pre></td></tr></table></figure>
+
+<p>VID 用于标识 VLAN。</p>
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">VID = 10</span><br><span class="line">→ VLAN10</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="4-Access-→-Trunk-→-Access-的完整转发"><a href="#4-Access-→-Trunk-→-Access-的完整转发" class="headerlink" title="4. Access → Trunk → Access 的完整转发"></a>4. Access → Trunk → Access 的完整转发</h2><p>PC1 属于 VLAN10：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">PC1</span><br><span class="line"> |</span><br><span class="line"> | Untagged</span><br><span class="line"> ↓</span><br><span class="line">SW1 Access VLAN10</span><br><span class="line"> |</span><br><span class="line"> | Switch 内部：</span><br><span class="line"> | VLAN Metadata = 10</span><br><span class="line"> |</span><br><span class="line"> | Trunk Egress</span><br><span class="line"> ↓</span><br><span class="line">802.1Q Tag VLAN10</span><br><span class="line"> |</span><br><span class="line"> | Trunk</span><br><span class="line"> ↓</span><br><span class="line">SW2</span><br><span class="line"> |</span><br><span class="line"> | 读取 Tag = VLAN10</span><br><span class="line"> | 内部 Metadata = VLAN10</span><br><span class="line"> |</span><br><span class="line"> | Access VLAN10 Egress</span><br><span class="line"> ↓</span><br><span class="line">移除 Tag</span><br><span class="line"> |</span><br><span class="line"> ↓</span><br><span class="line">PC3</span><br></pre></td></tr></table></figure>
+
+<p>所以：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PC ↔ Access</span><br><span class="line">→ 通常 Untagged</span><br><span class="line"></span><br><span class="line">Switch ↔ Switch Trunk</span><br><span class="line">→ 通常 Tagged</span><br><span class="line"></span><br><span class="line">Switch 内部</span><br><span class="line">→ 使用 VLAN Metadata 处理</span><br></pre></td></tr></table></figure>
+
+<p>802.1Q Tag 增加 4 Byte，但标准 Ethernet&#x2F;IP 场景中并不是简单把 IP MTU 1500 改成 1496。</p>
+<h2 id="5-Trunk-Allowed-VLAN-与-Native-VLAN"><a href="#5-Trunk-Allowed-VLAN-与-Native-VLAN" class="headerlink" title="5. Trunk Allowed VLAN 与 Native VLAN"></a>5. Trunk Allowed VLAN 与 Native VLAN</h2><h3 id="Allowed-VLAN"><a href="#Allowed-VLAN" class="headerlink" title="Allowed VLAN"></a>Allowed VLAN</h3><p>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">interface e0/2</span><br><span class="line"> switchport mode trunk</span><br><span class="line"> switchport trunk allowed vlan 10,30</span><br></pre></td></tr></table></figure>
+
+<p>表示：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">VLAN10 → 可以经过 Trunk</span><br><span class="line">VLAN30 → 可以经过 Trunk</span><br><span class="line">VLAN20 → 不能经过该 Trunk</span><br></pre></td></tr></table></figure>
+
+<p>必须区分三个概念：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">VLAN 在 Switch 上存在</span><br><span class="line">≠</span><br><span class="line">Access Port 属于该 VLAN</span><br><span class="line">≠</span><br><span class="line">该 VLAN 被 Trunk Allow</span><br></pre></td></tr></table></figure>
+
+<p>Cisco Trunk 默认通常允许较大的 VLAN 范围，实际设计中常主动限制 Allowed VLAN。</p>
+<h3 id="Native-VLAN"><a href="#Native-VLAN" class="headerlink" title="Native VLAN"></a>Native VLAN</h3><p>802.1Q Trunk 上存在 Native VLAN 概念。</p>
+<p>Native VLAN 的 Frame 在常见默认行为下可以 Untagged 通过 Trunk。</p>
+<p>但：</p>
+<blockquote>
+<p>Native VLAN 不能绕过 Allowed VLAN List。</p>
+</blockquote>
+<h3 id="Native-VLAN-Mismatch"><a href="#Native-VLAN-Mismatch" class="headerlink" title="Native VLAN Mismatch"></a>Native VLAN Mismatch</h3><p>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SW1 Native VLAN = 10</span><br><span class="line">SW2 Native VLAN = 20</span><br></pre></td></tr></table></figure>
+
+<p>SW1 发出的 Untagged Frame 到达 SW2 后：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SW2 会按照自己的 Native VLAN</span><br><span class="line">把它归类到 VLAN20</span><br></pre></td></tr></table></figure>
+
+<p>因此可能造成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">VLAN 错误映射</span><br><span class="line">STP/PVST 一致性问题</span><br><span class="line">安全风险</span><br></pre></td></tr></table></figure>
+
+<p>所以 Trunk 两端 Native VLAN 应保持一致。</p>
+<h2 id="6-为什么二层-Loop-非常危险"><a href="#6-为什么二层-Loop-非常危险" class="headerlink" title="6. 为什么二层 Loop 非常危险"></a>6. 为什么二层 Loop 非常危险</h2><p>假设：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">    SW1</span><br><span class="line">   /   \</span><br><span class="line">  /     \</span><br><span class="line">SW2-----SW3</span><br></pre></td></tr></table></figure>
+
+<p>如果所有链路都在二层 Forwarding，可能形成 Loop。</p>
+<p>Ethernet Frame 没有类似 IP TTL 的机制。</p>
+<p>因此 Broadcast 可能：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SW1 → SW2 → SW3 → SW1 → ...</span><br></pre></td></tr></table></figure>
+
+<p>产生：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Broadcast Storm</span><br><span class="line">Duplicate Frames</span><br><span class="line">MAC Address Flapping</span><br><span class="line">网络资源耗尽</span><br></pre></td></tr></table></figure>
+
+<p>例如同一个 Source MAC：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AAAA → E0/1</span><br><span class="line">AAAA → E0/2</span><br><span class="line">AAAA → E0/1</span><br><span class="line">AAAA → E0/2</span><br></pre></td></tr></table></figure>
+
+<p>Switch 会不断改变 MAC Table 中的接口记录。</p>
+<p>因此二层冗余网络需要 STP。</p>
+<h2 id="7-STP：Root、Root-Port-与-Designated-Port"><a href="#7-STP：Root、Root-Port-与-Designated-Port" class="headerlink" title="7. STP：Root、Root Port 与 Designated Port"></a>7. STP：Root、Root Port 与 Designated Port</h2><p>STP 的核心目标：</p>
+<blockquote>
+<p>保留物理冗余，但在逻辑上阻断部分路径，形成无环二层拓扑。</p>
+</blockquote>
+<h3 id="Root-Bridge"><a href="#Root-Bridge" class="headerlink" title="Root Bridge"></a>Root Bridge</h3><p>比较 Bridge ID（BID），更低者优先。</p>
+<p>BID 核心包括：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Bridge Priority</span><br><span class="line">+</span><br><span class="line">Extended System ID / VLAN</span><br><span class="line">+</span><br><span class="line">MAC Address</span><br></pre></td></tr></table></figure>
+
+<p>现代 Cisco PVST&#x2F;Rapid-PVST 中 Priority 通常按 4096 的倍数调整。</p>
+<p>Root Bridge：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">没有 Root Port</span><br></pre></td></tr></table></figure>
+
+<h3 id="Root-Port（RP）"><a href="#Root-Port（RP）" class="headerlink" title="Root Port（RP）"></a>Root Port（RP）</h3><p>每台非 Root Switch 选择一个：</p>
+<blockquote>
+<p>到 Root Bridge 总 Root Path Cost 最低的接口。</p>
+</blockquote>
+<p>因此：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">每台非 Root Bridge</span><br><span class="line">→ 通常一个 RP</span><br></pre></td></tr></table></figure>
+
+<h3 id="Designated-Port（DP）"><a href="#Designated-Port（DP）" class="headerlink" title="Designated Port（DP）"></a>Designated Port（DP）</h3><p>每个二层 Segment 需要选一个 Designated Port：</p>
+<blockquote>
+<p>该 Segment 上提供最优 Root Path 的端口。</p>
+</blockquote>
+<p>Root Bridge 上参与 STP 的正常端口通常是 DP。</p>
+<h3 id="Alternate-Port"><a href="#Alternate-Port" class="headerlink" title="Alternate Port"></a>Alternate Port</h3><p>RSTP 中，冗余但当前未使用的路径可能成为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Alternate Port</span><br></pre></td></tr></table></figure>
+
+<p>通常处于 Discarding。</p>
+<h2 id="8-STP-选举与-Tie-break"><a href="#8-STP-选举与-Tie-break" class="headerlink" title="8. STP 选举与 Tie-break"></a>8. STP 选举与 Tie-break</h2><h3 id="Root-Bridge-1"><a href="#Root-Bridge-1" class="headerlink" title="Root Bridge"></a>Root Bridge</h3><p>核心：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">最低 BID</span><br></pre></td></tr></table></figure>
+
+<h3 id="Root-Port"><a href="#Root-Port" class="headerlink" title="Root Port"></a>Root Port</h3><p>首先比较：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Root Path Cost</span><br></pre></td></tr></table></figure>
+
+<p>如果相同，继续 Tie-break。</p>
+<p>可以记住主干：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Root ID</span><br><span class="line">→ Root Path Cost</span><br><span class="line">→ Sender BID</span><br><span class="line">→ Sender Port ID</span><br><span class="line">→ Local Port ID</span><br></pre></td></tr></table></figure>
+
+<h3 id="Designated-Port"><a href="#Designated-Port" class="headerlink" title="Designated Port"></a>Designated Port</h3><p>在同一个 Segment 上比较收到&#x2F;发送的 BPDU 信息，提供更优 Root Path 的一侧成为 DP。</p>
+<p>因此必须区分：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Role</span><br><span class="line">→ RP / DP / Alternate</span><br><span class="line"></span><br><span class="line">State</span><br><span class="line">→ Forwarding / Learning / Discarding</span><br></pre></td></tr></table></figure>
+
+<p><strong>Role ≠ State。</strong></p>
+<h2 id="9-Classic-STP、RSTP-与保护机制"><a href="#9-Classic-STP、RSTP-与保护机制" class="headerlink" title="9. Classic STP、RSTP 与保护机制"></a>9. Classic STP、RSTP 与保护机制</h2><h3 id="Classic-STP-States"><a href="#Classic-STP-States" class="headerlink" title="Classic STP States"></a>Classic STP States</h3><p>传统 802.1D：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Disabled</span><br><span class="line">Blocking</span><br><span class="line">Listening</span><br><span class="line">Learning</span><br><span class="line">Forwarding</span><br></pre></td></tr></table></figure>
+
+<p>经典 Timer：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Hello Time     2s</span><br><span class="line">Max Age       20s</span><br><span class="line">Forward Delay 15s</span><br></pre></td></tr></table></figure>
+
+<p>传统收敛在某些场景可能达到约 30～50 秒。</p>
+<p>但要注意：</p>
+<blockquote>
+<p><strong>物理接口直接 Down 时，Switch 可以直接感知 Link Down，并不是所有故障都必须等待 Max Age 20 秒。</strong></p>
+</blockquote>
+<p>Max Age 更典型用于：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">链路仍然 Up</span><br><span class="line">但原有 BPDU / Root 信息不再更新</span><br></pre></td></tr></table></figure>
+
+<h3 id="RSTP"><a href="#RSTP" class="headerlink" title="RSTP"></a>RSTP</h3><p>RSTP 简化 State：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Discarding</span><br><span class="line">Learning</span><br><span class="line">Forwarding</span><br></pre></td></tr></table></figure>
+
+<p>并通过：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Proposal / Agreement</span><br><span class="line">Alternate Port</span><br><span class="line">更快的信息失效机制</span><br></pre></td></tr></table></figure>
+
+<p>显著加快收敛。</p>
+<p>RSTP 中常见约：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3 × Hello</span><br></pre></td></tr></table></figure>
+
+<p>可用于某些“链路仍 Up、但 BPDU 消失”的故障检测场景，但不能理解成所有故障统一等待约 6 秒。</p>
+<h3 id="PortFast"><a href="#PortFast" class="headerlink" title="PortFast"></a>PortFast</h3><p>用于 Edge Port：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Switch ── PC</span><br></pre></td></tr></table></figure>
+
+<p>让接口快速进入 Forwarding。</p>
+<p>PortFast：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">≠ 关闭 STP</span><br></pre></td></tr></table></figure>
+
+<h3 id="BPDU-Guard"><a href="#BPDU-Guard" class="headerlink" title="BPDU Guard"></a>BPDU Guard</h3><p>常与 PortFast 配合。</p>
+<p>如果受保护 Edge Port 收到 BPDU：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">→ 通常进入 err-disabled</span><br></pre></td></tr></table></figure>
+
+<p>目的：</p>
+<blockquote>
+<p>防止用户侧意外接入 Switch 并影响 STP。</p>
+</blockquote>
+<h3 id="Root-Guard"><a href="#Root-Guard" class="headerlink" title="Root Guard"></a>Root Guard</h3><p>如果某接口不应该成为通往 Root 的方向，却收到 Superior BPDU：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">→ Root-Inconsistent</span><br></pre></td></tr></table></figure>
+
+<p>Superior BPDU 消失后可自动恢复。</p>
+<h3 id="Loop-Guard"><a href="#Loop-Guard" class="headerlink" title="Loop Guard"></a>Loop Guard</h3><p>本来应该持续收到 BPDU 的非指定端口突然收不到：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">→ 防止错误进入 Forwarding</span><br><span class="line">→ Loop-Inconsistent</span><br></pre></td></tr></table></figure>
+
+<h3 id="UDLD"><a href="#UDLD" class="headerlink" title="UDLD"></a>UDLD</h3><p>用于检测：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Unidirectional Link</span><br></pre></td></tr></table></figure>
+
+<p>即：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A → B 正常</span><br><span class="line">B → A 异常</span><br></pre></td></tr></table></figure>
+
+<p>避免单向链路引起二层问题。</p>
+<h2 id="10-PVST、配置、Show-与排障"><a href="#10-PVST、配置、Show-与排障" class="headerlink" title="10. PVST、配置、Show 与排障"></a>10. PVST、配置、Show 与排障</h2><p>Cisco PVST &#x2F; Rapid-PVST 可以：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">每个 VLAN 拥有独立 STP Instance</span><br></pre></td></tr></table></figure>
+
+<p>因此可以设计：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">VLAN10：</span><br><span class="line">SW1 为 Root</span><br><span class="line"></span><br><span class="line">VLAN20：</span><br><span class="line">SW2 为 Root</span><br></pre></td></tr></table></figure>
+
+<p>实现一定程度的 VLAN 级路径分担。</p>
+<h3 id="Root-Primary-x2F-Secondary"><a href="#Root-Primary-x2F-Secondary" class="headerlink" title="Root Primary &#x2F; Secondary"></a>Root Primary &#x2F; Secondary</h3><p>Cisco 常见：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spanning-tree vlan 10 root primary</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spanning-tree vlan 10 root secondary</span><br></pre></td></tr></table></figure>
+
+<p>它们本质上是帮助调整 Priority 的宏。</p>
+<p><code>secondary</code> 并不意味着协议保证：</p>
+<blockquote>
+<p>Primary 挂掉后，这台设备一定成为下一任 Root。</p>
+</blockquote>
+<p>最终仍然按照 STP BID 选举。</p>
+<hr>
+<h3 id="VLAN-x2F-Access-配置"><a href="#VLAN-x2F-Access-配置" class="headerlink" title="VLAN &#x2F; Access 配置"></a>VLAN &#x2F; Access 配置</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vlan 10</span><br><span class="line"> name USERS</span><br><span class="line"></span><br><span class="line">interface e0/1</span><br><span class="line"> switchport mode access</span><br><span class="line"> switchport access vlan 10</span><br></pre></td></tr></table></figure>
+
+<h3 id="Trunk"><a href="#Trunk" class="headerlink" title="Trunk"></a>Trunk</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">interface e0/2</span><br><span class="line"> switchport mode trunk</span><br><span class="line"> switchport trunk allowed vlan 10,20</span><br></pre></td></tr></table></figure>
+
+<p>如需指定 Native VLAN：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">switchport trunk native vlan 99</span><br></pre></td></tr></table></figure>
+
+<h3 id="Rapid-PVST"><a href="#Rapid-PVST" class="headerlink" title="Rapid-PVST"></a>Rapid-PVST</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spanning-tree mode rapid-pvst</span><br></pre></td></tr></table></figure>
+
+<h3 id="PortFast-BPDU-Guard"><a href="#PortFast-BPDU-Guard" class="headerlink" title="PortFast + BPDU Guard"></a>PortFast + BPDU Guard</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">interface e0/1</span><br><span class="line"> spanning-tree portfast</span><br><span class="line"> spanning-tree bpduguard enable</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="重要-Show-命令"><a href="#重要-Show-命令" class="headerlink" title="重要 Show 命令"></a>重要 Show 命令</h3><p>查看 VLAN：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show vlan brief</span><br></pre></td></tr></table></figure>
+
+<p>查看 Trunk：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show interfaces trunk</span><br></pre></td></tr></table></figure>
+
+<p>查看接口二层属性：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show interfaces e0/1 switchport</span><br></pre></td></tr></table></figure>
+
+<p>查看 MAC Table：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show mac address-table</span><br></pre></td></tr></table></figure>
+
+<p>查看 STP：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show spanning-tree</span><br></pre></td></tr></table></figure>
+
+<p>指定 VLAN：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show spanning-tree vlan 10</span><br></pre></td></tr></table></figure>
+
+<p>查看接口状态：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show interfaces status</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show ip interface brief</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="二层排障顺序"><a href="#二层排障顺序" class="headerlink" title="二层排障顺序"></a>二层排障顺序</h3><p>同 VLAN 跨 Switch 无法通信：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">1. Physical Interface Up？</span><br><span class="line">        ↓</span><br><span class="line">2. Access VLAN 正确？</span><br><span class="line">        ↓</span><br><span class="line">3. VLAN 是否存在？</span><br><span class="line">        ↓</span><br><span class="line">4. Trunk 是否形成？</span><br><span class="line">        ↓</span><br><span class="line">5. VLAN 是否在 Allowed List？</span><br><span class="line">        ↓</span><br><span class="line">6. Native VLAN 是否一致？</span><br><span class="line">        ↓</span><br><span class="line">7. STP 是否阻断了预期路径？</span><br><span class="line">        ↓</span><br><span class="line">8. MAC Table 是否学习正确？</span><br><span class="line">        ↓</span><br><span class="line">9. ARP 是否成功？</span><br></pre></td></tr></table></figure>
+
+<p>出现二层 Loop &#x2F; MAC Flapping：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">检查 STP Root</span><br><span class="line">        ↓</span><br><span class="line">检查 RP / DP / Alternate</span><br><span class="line">        ↓</span><br><span class="line">检查异常 Trunk</span><br><span class="line">        ↓</span><br><span class="line">检查 BPDU</span><br><span class="line">        ↓</span><br><span class="line">检查 PortFast / BPDU Guard</span><br><span class="line">        ↓</span><br><span class="line">检查 Loop Guard / UDLD</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="V2-最终核心链条"><a href="#V2-最终核心链条" class="headerlink" title="V2 最终核心链条"></a>V2 最终核心链条</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">VLAN</span><br><span class="line">→ 划分二层 Broadcast Domain</span><br><span class="line">        ↓</span><br><span class="line">Access Port</span><br><span class="line">→ 将 Untagged Endpoint Frame 归入 VLAN</span><br><span class="line">        ↓</span><br><span class="line">Trunk</span><br><span class="line">→ 同一物理链路承载多个 VLAN</span><br><span class="line">        ↓</span><br><span class="line">802.1Q</span><br><span class="line">→ 在线路上标识 VLAN</span><br><span class="line">        ↓</span><br><span class="line">Allowed VLAN / Native VLAN</span><br><span class="line">→ 控制 Trunk 的 VLAN 行为</span><br><span class="line">        ↓</span><br><span class="line">冗余二层链路</span><br><span class="line">→ 产生 Loop 风险</span><br><span class="line">        ↓</span><br><span class="line">STP / RSTP</span><br><span class="line">→ Root Bridge</span><br><span class="line">→ Root Port</span><br><span class="line">→ Designated Port</span><br><span class="line">→ Alternate / Blocking Path</span><br><span class="line">        ↓</span><br><span class="line">形成逻辑无环拓扑</span><br><span class="line">        ↓</span><br><span class="line">链路故障</span><br><span class="line">→ STP/RSTP 重新收敛</span><br><span class="line">→ 冗余路径接管</span><br></pre></td></tr></table></figure>
+
+<h3 id="最终记忆"><a href="#最终记忆" class="headerlink" title="最终记忆"></a>最终记忆</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">VLAN</span><br><span class="line">→ Broadcast Domain</span><br><span class="line"></span><br><span class="line">Access</span><br><span class="line">→ Endpoint 通常 Untagged</span><br><span class="line"></span><br><span class="line">Trunk</span><br><span class="line">→ 多 VLAN 传输</span><br><span class="line"></span><br><span class="line">802.1Q</span><br><span class="line">→ 给 Frame 标记 VLAN</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">STP：</span><br><span class="line">先选 Root</span><br><span class="line">→ 非 Root 选 RP</span><br><span class="line">→ 每个 Segment 选 DP</span><br><span class="line">→ 剩余冗余路径阻断/Discarding</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">PortFast</span><br><span class="line">→ Edge 快速 Forwarding</span><br><span class="line"></span><br><span class="line">BPDU Guard</span><br><span class="line">→ Edge 收到 BPDU 就保护</span><br><span class="line"></span><br><span class="line">Root Guard</span><br><span class="line">→ 不允许该方向成为 Root Path</span><br><span class="line"></span><br><span class="line">Loop Guard</span><br><span class="line">→ 应收 BPDU 却消失时防止误 Forwarding</span><br><span class="line"></span><br><span class="line">UDLD</span><br><span class="line">→ 检测单向链路</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://laporte12138.github.io">Laporte</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://laporte12138.github.io/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V2%EF%BC%9AVLAN%E5%92%8CSTP/">https://laporte12138.github.io/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V2%EF%BC%9AVLAN%E5%92%8CSTP/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://laporte12138.github.io" target="_blank">宇宙空间栈</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CCIE/">CCIE</a><a class="post-meta__tags" href="/tags/VLAN/">VLAN</a><a class="post-meta__tags" href="/tags/STP/">STP</a></div><div class="post_share"><div class="social-share" data-image="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V1%EF%BC%9AEthernet%E3%80%81MAC%E3%80%81ARP-%E4%B8%8E%E4%B8%80%E6%AC%A1-Ping-%E7%9A%84%E5%AE%8C%E6%95%B4%E8%BF%87%E7%A8%8B/"><img class="prev-cover" src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">【网络体系搭建】V1：Ethernet, MAC, ARP与一次Ping的完整过程</div></div></a></div><div class="next-post pull-right"><a href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V3%EF%BC%9ASVI%E3%80%81Inter-VLAN%20Routing%20%E4%B8%8E%20FHRP%20/"><img class="next-cover" src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【网络体系搭建】V3：SVI, Inter-VLAN Routing和FHRP</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2026/08/26/IDC%E5%8F%8C%E5%87%BA%E5%8F%A3BGP%E6%B5%81%E9%87%8F%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/" title="IDC网络双出口BGP流量工程实践"><img class="cover" src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20260826002007.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-26</div><div class="title">IDC网络双出口BGP流量工程实践</div></div></a></div><div><a href="/2026/08/25/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1./" title="网络工程师知识图谱（持续更新中）"><img class="cover" src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1-22092609294bE.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="title">网络工程师知识图谱（持续更新中）</div></div></a></div><div><a href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V1%EF%BC%9AEthernet%E3%80%81MAC%E3%80%81ARP-%E4%B8%8E%E4%B8%80%E6%AC%A1-Ping-%E7%9A%84%E5%AE%8C%E6%95%B4%E8%BF%87%E7%A8%8B/" title="【网络体系搭建】V1：Ethernet, MAC, ARP与一次Ping的完整过程"><img class="cover" src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-02</div><div class="title">【网络体系搭建】V1：Ethernet, MAC, ARP与一次Ping的完整过程</div></div></a></div><div><a href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V3%EF%BC%9ASVI%E3%80%81Inter-VLAN%20Routing%20%E4%B8%8E%20FHRP%20/" title="【网络体系搭建】V3：SVI, Inter-VLAN Routing和FHRP"><img class="cover" src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-02</div><div class="title">【网络体系搭建】V3：SVI, Inter-VLAN Routing和FHRP</div></div></a></div><div><a href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V4%EF%BC%9AEtherChannel%20%20Port-Channel%20%20LACP/" title="【网络体系搭建】V4：EtherChannel和LACP"><img class="cover" src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-02</div><div class="title">【网络体系搭建】V4：EtherChannel和LACP</div></div></a></div><div><a href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V6%EF%BC%9ABGP%20%E4%B8%8E%20Route%20Policy/" title="【网络体系搭建】V6：BGP与Router Policy"><img class="cover" src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-02</div><div class="title">【网络体系搭建】V6：BGP与Router Policy</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/微信图片_20220406195033.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Laporte</div><div class="author-info__description">从不偏科</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Laporte12138" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="联系我"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://Laporte12138.github.io" target="_blank" title="主页"><i class="fa-solid fa-house"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Work-life balence</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-VLAN%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%80%E4%B8%AA-Switch-%E8%BF%98%E8%A6%81%E5%88%92%E5%88%86%E5%B9%BF%E6%92%AD%E5%9F%9F"><span class="toc-text">1. VLAN：为什么一个 Switch 还要划分广播域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Access-Port%EF%BC%9A%E7%BB%88%E7%AB%AF%E5%A6%82%E4%BD%95%E8%BF%9B%E5%85%A5-VLAN"><span class="toc-text">2. Access Port：终端如何进入 VLAN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Trunk-%E4%B8%8E-802-1Q"><span class="toc-text">3. Trunk 与 802.1Q</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Access-%E2%86%92-Trunk-%E2%86%92-Access-%E7%9A%84%E5%AE%8C%E6%95%B4%E8%BD%AC%E5%8F%91"><span class="toc-text">4. Access → Trunk → Access 的完整转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Trunk-Allowed-VLAN-%E4%B8%8E-Native-VLAN"><span class="toc-text">5. Trunk Allowed VLAN 与 Native VLAN</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Allowed-VLAN"><span class="toc-text">Allowed VLAN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Native-VLAN"><span class="toc-text">Native VLAN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Native-VLAN-Mismatch"><span class="toc-text">Native VLAN Mismatch</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%8C%E5%B1%82-Loop-%E9%9D%9E%E5%B8%B8%E5%8D%B1%E9%99%A9"><span class="toc-text">6. 为什么二层 Loop 非常危险</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-STP%EF%BC%9ARoot%E3%80%81Root-Port-%E4%B8%8E-Designated-Port"><span class="toc-text">7. STP：Root、Root Port 与 Designated Port</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Root-Bridge"><span class="toc-text">Root Bridge</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Root-Port%EF%BC%88RP%EF%BC%89"><span class="toc-text">Root Port（RP）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Designated-Port%EF%BC%88DP%EF%BC%89"><span class="toc-text">Designated Port（DP）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Alternate-Port"><span class="toc-text">Alternate Port</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-STP-%E9%80%89%E4%B8%BE%E4%B8%8E-Tie-break"><span class="toc-text">8. STP 选举与 Tie-break</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Root-Bridge-1"><span class="toc-text">Root Bridge</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Root-Port"><span class="toc-text">Root Port</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Designated-Port"><span class="toc-text">Designated Port</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-Classic-STP%E3%80%81RSTP-%E4%B8%8E%E4%BF%9D%E6%8A%A4%E6%9C%BA%E5%88%B6"><span class="toc-text">9. Classic STP、RSTP 与保护机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Classic-STP-States"><span class="toc-text">Classic STP States</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSTP"><span class="toc-text">RSTP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PortFast"><span class="toc-text">PortFast</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BPDU-Guard"><span class="toc-text">BPDU Guard</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Root-Guard"><span class="toc-text">Root Guard</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Loop-Guard"><span class="toc-text">Loop Guard</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UDLD"><span class="toc-text">UDLD</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-PVST%E3%80%81%E9%85%8D%E7%BD%AE%E3%80%81Show-%E4%B8%8E%E6%8E%92%E9%9A%9C"><span class="toc-text">10. PVST、配置、Show 与排障</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Root-Primary-x2F-Secondary"><span class="toc-text">Root Primary &#x2F; Secondary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VLAN-x2F-Access-%E9%85%8D%E7%BD%AE"><span class="toc-text">VLAN &#x2F; Access 配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Trunk"><span class="toc-text">Trunk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Rapid-PVST"><span class="toc-text">Rapid-PVST</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PortFast-BPDU-Guard"><span class="toc-text">PortFast + BPDU Guard</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E8%A6%81-Show-%E5%91%BD%E4%BB%A4"><span class="toc-text">重要 Show 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%B1%82%E6%8E%92%E9%9A%9C%E9%A1%BA%E5%BA%8F"><span class="toc-text">二层排障顺序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#V2-%E6%9C%80%E7%BB%88%E6%A0%B8%E5%BF%83%E9%93%BE%E6%9D%A1"><span class="toc-text">V2 最终核心链条</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E8%AE%B0%E5%BF%86"><span class="toc-text">最终记忆</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V1%EF%BC%9AEthernet%E3%80%81MAC%E3%80%81ARP-%E4%B8%8E%E4%B8%80%E6%AC%A1-Ping-%E7%9A%84%E5%AE%8C%E6%95%B4%E8%BF%87%E7%A8%8B/" title="【网络体系搭建】V1：Ethernet, MAC, ARP与一次Ping的完整过程"><img src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【网络体系搭建】V1：Ethernet, MAC, ARP与一次Ping的完整过程"/></a><div class="content"><a class="title" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V1%EF%BC%9AEthernet%E3%80%81MAC%E3%80%81ARP-%E4%B8%8E%E4%B8%80%E6%AC%A1-Ping-%E7%9A%84%E5%AE%8C%E6%95%B4%E8%BF%87%E7%A8%8B/" title="【网络体系搭建】V1：Ethernet, MAC, ARP与一次Ping的完整过程">【网络体系搭建】V1：Ethernet, MAC, ARP与一次Ping的完整过程</a><time datetime="2026-10-02T03:33:59.000Z" title="发表于 2026-10-02 11:33:59">2026-10-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V2%EF%BC%9AVLAN%E5%92%8CSTP/" title="【网络体系搭建】V2：VLAN和STP"><img src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【网络体系搭建】V2：VLAN和STP"/></a><div class="content"><a class="title" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V2%EF%BC%9AVLAN%E5%92%8CSTP/" title="【网络体系搭建】V2：VLAN和STP">【网络体系搭建】V2：VLAN和STP</a><time datetime="2026-10-02T03:33:59.000Z" title="发表于 2026-10-02 11:33:59">2026-10-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V3%EF%BC%9ASVI%E3%80%81Inter-VLAN%20Routing%20%E4%B8%8E%20FHRP%20/" title="【网络体系搭建】V3：SVI, Inter-VLAN Routing和FHRP"><img src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【网络体系搭建】V3：SVI, Inter-VLAN Routing和FHRP"/></a><div class="content"><a class="title" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V3%EF%BC%9ASVI%E3%80%81Inter-VLAN%20Routing%20%E4%B8%8E%20FHRP%20/" title="【网络体系搭建】V3：SVI, Inter-VLAN Routing和FHRP">【网络体系搭建】V3：SVI, Inter-VLAN Routing和FHRP</a><time datetime="2026-10-02T03:33:59.000Z" title="发表于 2026-10-02 11:33:59">2026-10-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V4%EF%BC%9AEtherChannel%20%20Port-Channel%20%20LACP/" title="【网络体系搭建】V4：EtherChannel和LACP"><img src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【网络体系搭建】V4：EtherChannel和LACP"/></a><div class="content"><a class="title" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V4%EF%BC%9AEtherChannel%20%20Port-Channel%20%20LACP/" title="【网络体系搭建】V4：EtherChannel和LACP">【网络体系搭建】V4：EtherChannel和LACP</a><time datetime="2026-10-02T03:33:59.000Z" title="发表于 2026-10-02 11:33:59">2026-10-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V6%EF%BC%9ABGP%20%E4%B8%8E%20Route%20Policy/" title="【网络体系搭建】V6：BGP与Router Policy"><img src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【网络体系搭建】V6：BGP与Router Policy"/></a><div class="content"><a class="title" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V6%EF%BC%9ABGP%20%E4%B8%8E%20Route%20Policy/" title="【网络体系搭建】V6：BGP与Router Policy">【网络体系搭建】V6：BGP与Router Policy</a><time datetime="2026-10-02T03:33:59.000Z" title="发表于 2026-10-02 11:33:59">2026-10-02</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Laporte</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">宇宙空间栈</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,519 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>【网络体系搭建】V5：IGP路由体系——OSPF和EIGRP | 宇宙空间栈</title><meta name="keywords" content="CCIE,OSPF,EIGRP,ECMP,BFD"><meta name="author" content="Laporte"><meta name="copyright" content="Laporte"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="数据中心网络从0到1的第五步">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【网络体系搭建】V5：IGP路由体系——OSPF和EIGRP">
+<meta property="og:url" content="https://laporte12138.github.io/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V5%EF%BC%9AIGP%20%E8%B7%AF%E7%94%B1%E4%BD%93%E7%B3%BB%20%E2%80%94%E2%80%94%20OSPF%E3%80%81ECMP%E3%80%81BFD%20%E4%B8%8E%20EIGRP/index.html">
+<meta property="og:site_name" content="宇宙空间栈">
+<meta property="og:description" content="数据中心网络从0到1的第五步">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg">
+<meta property="article:published_time" content="2026-10-02T03:33:59.000Z">
+<meta property="article:modified_time" content="2026-10-02T04:01:38.533Z">
+<meta property="article:author" content="Laporte">
+<meta property="article:tag" content="CCIE">
+<meta property="article:tag" content="OSPF">
+<meta property="article:tag" content="EIGRP">
+<meta property="article:tag" content="ECMP">
+<meta property="article:tag" content="BFD">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://laporte12138.github.io/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V5%EF%BC%9AIGP%20%E8%B7%AF%E7%94%B1%E4%BD%93%E7%B3%BB%20%E2%80%94%E2%80%94%20OSPF%E3%80%81ECMP%E3%80%81BFD%20%E4%B8%8E%20EIGRP/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":"ture","highlightLang":true,"highlightHeightLimit":50},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【网络体系搭建】V5：IGP路由体系——OSPF和EIGRP',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-10-02 12:01:38'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/微信图片_20220406195033.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw class=&quot;fa-sharp fa-solid fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://music.163.com/#/playlist?id=8266828617"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://space.bilibili.com/456625902?spm_id_from=333.1007.0.0"><i class="fa-fw fas fa-video"></i><span> B站</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">宇宙空间栈</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw class=&quot;fa-sharp fa-solid fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://music.163.com/#/playlist?id=8266828617"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://space.bilibili.com/456625902?spm_id_from=333.1007.0.0"><i class="fa-fw fas fa-video"></i><span> B站</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【网络体系搭建】V5：IGP路由体系——OSPF和EIGRP</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-10-02T03:33:59.000Z" title="发表于 2026-10-02 11:33:59">2026-10-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-10-02T04:01:38.533Z" title="更新于 2026-10-02 12:01:38">2026-10-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B/">网络工程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="【网络体系搭建】V5：IGP路由体系——OSPF和EIGRP"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="1-为什么需要动态路由协议"><a href="#1-为什么需要动态路由协议" class="headerlink" title="1. 为什么需要动态路由协议"></a>1. 为什么需要动态路由协议</h2><p>静态路由适合规模较小、拓扑稳定的网络，但随着网络扩大，会出现：</p>
+<ul>
+<li>路由数量增加，人工配置成本高</li>
+<li>拓扑变化后需要人工调整</li>
+<li>多路径环境难以自动重新计算最优路径</li>
+</ul>
+<p>动态路由协议的核心作用：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">发现邻居</span><br><span class="line">→ 交换路由/拓扑信息</span><br><span class="line">→ 自动计算最佳路径</span><br><span class="line">→ 拓扑变化</span><br><span class="line">→ 自动重新收敛</span><br><span class="line">→ 更新 RIB/FIB</span><br></pre></td></tr></table></figure>
+
+<p>IGP（Interior Gateway Protocol）主要用于一个自治系统内部。</p>
+<p>常见：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">OSPF</span><br><span class="line">EIGRP</span><br><span class="line">IS-IS</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="2-OSPF-Neighbor、Hello-与-Router-ID"><a href="#2-OSPF-Neighbor、Hello-与-Router-ID" class="headerlink" title="2. OSPF Neighbor、Hello 与 Router ID"></a>2. OSPF Neighbor、Hello 与 Router ID</h2><p>OSPF 直接封装在 IP 中：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Ethernet</span><br><span class="line">→ IPv4</span><br><span class="line">→ Protocol 89</span><br><span class="line">→ OSPF</span><br></pre></td></tr></table></figure>
+
+<p>不使用 TCP&#x2F;UDP。</p>
+<h3 id="Hello"><a href="#Hello" class="headerlink" title="Hello"></a>Hello</h3><p>Hello 用于：</p>
+<ul>
+<li>发现 OSPF Neighbor</li>
+<li>维护 Neighbor Relationship</li>
+<li>携带 DR&#x2F;BDR 等相关信息</li>
+</ul>
+<p>典型 Ethernet Broadcast &#x2F; Point-to-Point：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Hello Interval = 10s</span><br><span class="line">Dead Interval  = 40s</span><br></pre></td></tr></table></figure>
+
+<p>邻居已经进入 Full 后仍然持续发送 Hello。</p>
+<p>如果接口仍 Up，但持续收不到有效 Hello：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Dead Interval 到期</span><br><span class="line">→ Neighbor Down</span><br></pre></td></tr></table></figure>
+
+<p>如果物理接口直接 Down：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Interface Down</span><br><span class="line">→ 可以快速感知</span><br><span class="line">→ 不需要等待 Dead Interval</span><br></pre></td></tr></table></figure>
+
+<h3 id="Router-ID"><a href="#Router-ID" class="headerlink" title="Router ID"></a>Router ID</h3><p>Router ID 是 OSPF Router 的 32-bit 身份标识。</p>
+<p>Cisco 常见选择逻辑：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 手工 router-id</span><br><span class="line">2. 最高 Loopback IP</span><br><span class="line">3. 最高 Up 状态非 Loopback L3 Interface IP</span><br></pre></td></tr></table></figure>
+
+<p>Router ID 不等于“数据包转发地址”。</p>
+<hr>
+<h2 id="3-OSPF-Neighbor-State、DR-x2F-BDR-与-LSDB-同步"><a href="#3-OSPF-Neighbor-State、DR-x2F-BDR-与-LSDB-同步" class="headerlink" title="3. OSPF Neighbor State、DR&#x2F;BDR 与 LSDB 同步"></a>3. OSPF Neighbor State、DR&#x2F;BDR 与 LSDB 同步</h2><p>主要状态：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Down</span><br><span class="line">→ Init</span><br><span class="line">→ 2-Way</span><br><span class="line">→ ExStart</span><br><span class="line">→ Exchange</span><br><span class="line">→ Loading</span><br><span class="line">→ Full</span><br></pre></td></tr></table></figure>
+
+<p>含义：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Init</span><br><span class="line">= 已收到对方 Hello</span><br><span class="line">  但对方 Hello 的 Neighbor List 中还没有我的 RID</span><br><span class="line"></span><br><span class="line">2-Way</span><br><span class="line">= 对方 Hello 的 Neighbor List 中已经出现我的 RID</span><br><span class="line">  双向可见性确认</span><br><span class="line"></span><br><span class="line">ExStart</span><br><span class="line">= 协商 DBD Master/Slave、Sequence</span><br><span class="line"></span><br><span class="line">Exchange</span><br><span class="line">= 交换 DBD</span><br><span class="line"></span><br><span class="line">Loading</span><br><span class="line">= LSR 请求缺失 LSA</span><br><span class="line">  LSU 返回 LSA</span><br><span class="line">  LSAck 确认</span><br><span class="line"></span><br><span class="line">Full</span><br><span class="line">= 该邻接关系完成所需 LSDB 同步</span><br></pre></td></tr></table></figure>
+
+<h3 id="DBD-x2F-LSR-x2F-LSU-x2F-LSAck"><a href="#DBD-x2F-LSR-x2F-LSU-x2F-LSAck" class="headerlink" title="DBD &#x2F; LSR &#x2F; LSU &#x2F; LSAck"></a>DBD &#x2F; LSR &#x2F; LSU &#x2F; LSAck</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">DBD</span><br><span class="line">= Database Description</span><br><span class="line">= LSDB 内容摘要/目录</span><br><span class="line"></span><br><span class="line">LSR</span><br><span class="line">= Link-State Request</span><br><span class="line">= 请求缺失 LSA</span><br><span class="line"></span><br><span class="line">LSU</span><br><span class="line">= Link-State Update</span><br><span class="line">= 携带一个或多个 LSA</span><br><span class="line"></span><br><span class="line">LSAck</span><br><span class="line">= Link-State Acknowledgment</span><br><span class="line">= 确认收到 LSA</span><br></pre></td></tr></table></figure>
+
+<h3 id="Broadcast-Network-中的-DR-x2F-BDR"><a href="#Broadcast-Network-中的-DR-x2F-BDR" class="headerlink" title="Broadcast Network 中的 DR&#x2F;BDR"></a>Broadcast Network 中的 DR&#x2F;BDR</h3><p>选举规则：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. Interface Priority 越高越优</span><br><span class="line">2. Priority 相同 → Router ID 越高越优</span><br><span class="line">3. Priority = 0 → 无资格成为 DR/BDR</span><br></pre></td></tr></table></figure>
+
+<p>DR&#x2F;BDR：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DR   = Designated Router</span><br><span class="line">BDR  = Backup Designated Router</span><br></pre></td></tr></table></figure>
+
+<p>DROther：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DROther ↔ DR  = Full</span><br><span class="line">DROther ↔ BDR = Full</span><br><span class="line">DROther ↔ DROther = 通常保持 2-Way</span><br></pre></td></tr></table></figure>
+
+<p>DR&#x2F;BDR 是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">每个 Multiaccess Segment 独立选举</span><br></pre></td></tr></table></figure>
+
+<p>不是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">每个 Area 一个 DR/BDR</span><br></pre></td></tr></table></figure>
+
+<p>DR&#x2F;BDR 不抢占：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">现有 DR = R1</span><br><span class="line">现有 BDR = R2</span><br><span class="line"></span><br><span class="line">后来 R4 Priority 更高</span><br><span class="line">→ 不会立即抢 DR</span><br><span class="line"></span><br><span class="line">DR R1 Down</span><br><span class="line">→ BDR R2 升为 DR</span><br><span class="line">→ 再选新的 BDR</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="4-LSA、LSDB、SPF、RIB-与-FIB"><a href="#4-LSA、LSDB、SPF、RIB-与-FIB" class="headerlink" title="4. LSA、LSDB、SPF、RIB 与 FIB"></a>4. LSA、LSDB、SPF、RIB 与 FIB</h2><p>OSPF 核心链：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Neighbor / Adjacency</span><br><span class="line">        ↓</span><br><span class="line">LSA Flooding</span><br><span class="line">        ↓</span><br><span class="line">LSDB</span><br><span class="line">        ↓</span><br><span class="line">SPF / Dijkstra</span><br><span class="line">        ↓</span><br><span class="line">RIB</span><br><span class="line">        ↓</span><br><span class="line">FIB</span><br><span class="line">        ↓</span><br><span class="line">实际数据转发</span><br></pre></td></tr></table></figure>
+
+<h3 id="LSA"><a href="#LSA" class="headerlink" title="LSA"></a>LSA</h3><p>LSA（Link-State Advertisement）是拓扑信息单位。</p>
+<h3 id="LSDB"><a href="#LSDB" class="headerlink" title="LSDB"></a>LSDB</h3><p>LSDB：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Link-State Database</span><br></pre></td></tr></table></figure>
+
+<p>保存本 Area 的链路状态拓扑信息。</p>
+<p>同一个 Area 内 Router 通过 LSA Flooding 获得相应拓扑信息。</p>
+<h3 id="SPF"><a href="#SPF" class="headerlink" title="SPF"></a>SPF</h3><p>每台 Router 根据自己的 LSDB 独立运行 SPF。</p>
+<p>即使 LSDB 相同：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">R1 以自己为根跑 SPF</span><br><span class="line">R2 以自己为根跑 SPF</span><br></pre></td></tr></table></figure>
+
+<p>因此最终 Routing Table 可以不同。</p>
+<h3 id="RIB"><a href="#RIB" class="headerlink" title="RIB"></a>RIB</h3><p>RIB：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Routing Information Base</span><br></pre></td></tr></table></figure>
+
+<p>控制平面的路由数据库。</p>
+<p>典型查看：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show ip route</span><br></pre></td></tr></table></figure>
+
+<h3 id="FIB"><a href="#FIB" class="headerlink" title="FIB"></a>FIB</h3><p>FIB：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Forwarding Information Base</span><br></pre></td></tr></table></figure>
+
+<p>是为数据平面快速转发准备的转发结构。</p>
+<p>CEF 可概念化为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FIB</span><br><span class="line">+</span><br><span class="line">Adjacency Information</span><br></pre></td></tr></table></figure>
+
+<p>完整逻辑：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">LSDB</span><br><span class="line">→ SPF</span><br><span class="line">→ RIB</span><br><span class="line">→ FIB</span><br><span class="line">→ Adjacency</span><br><span class="line">→ CEF Forwarding</span><br></pre></td></tr></table></figure>
+
+<p>ARP 与 Adjacency 不相同：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ARP：</span><br><span class="line">Next-Hop IPv4 → MAC</span><br><span class="line"></span><br><span class="line">CEF Adjacency：</span><br><span class="line">保存实际下一跳转发所需的 L2 Rewrite 等信息</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="5-OSPF-Cost、最短路径与-ECMP"><a href="#5-OSPF-Cost、最短路径与-ECMP" class="headerlink" title="5. OSPF Cost、最短路径与 ECMP"></a>5. OSPF Cost、最短路径与 ECMP</h2><p>OSPF 最终根据 Cost 进行路径选择。</p>
+<p>自动 Cost：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cost = Reference Bandwidth / Interface Bandwidth</span><br></pre></td></tr></table></figure>
+
+<p>经典 Cisco 默认：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Reference Bandwidth = 100 Mbps</span><br></pre></td></tr></table></figure>
+
+<p>因此：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">100M → Cost 1</span><br><span class="line">1G   → 也可能 Cost 1</span><br><span class="line">10G  → 也可能 Cost 1</span><br></pre></td></tr></table></figure>
+
+<p>无法区分现代高速链路。</p>
+<p>可以统一调整 Reference Bandwidth，例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> auto-cost reference-bandwidth 100000</span><br></pre></td></tr></table></figure>
+
+<p>单位通常为 Mbps：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">100000 Mbps = 100 Gbps</span><br></pre></td></tr></table></figure>
+
+<p>整个 OSPF Domain 应保持一致。</p>
+<p>也可以直接修改接口 Cost：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">interface Ethernet0/0</span><br><span class="line"> ip ospf cost 100</span><br></pre></td></tr></table></figure>
+
+<h3 id="Path-Cost"><a href="#Path-Cost" class="headerlink" title="Path Cost"></a>Path Cost</h3><p>路径 Cost 是沿路径相关出接口 Cost 的累加：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R1 → R2 = 10</span><br><span class="line">R2 → R4 = 20</span><br><span class="line"></span><br><span class="line">Total Cost = 30</span><br></pre></td></tr></table></figure>
+
+<p>OSPF 选择更低 Cost。</p>
+<h3 id="ECMP"><a href="#ECMP" class="headerlink" title="ECMP"></a>ECMP</h3><p>ECMP：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Equal-Cost Multi-Path</span><br><span class="line">等价多路径</span><br></pre></td></tr></table></figure>
+
+<p>如果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Path A Cost = 30</span><br><span class="line">Path B Cost = 30</span><br></pre></td></tr></table></figure>
+
+<p>在设备最大路径数量等条件允许时，可以同时安装。</p>
+<p>如果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Path A = 30</span><br><span class="line">Path B = 31</span><br></pre></td></tr></table></figure>
+
+<p>则不再是 ECMP。</p>
+<p>现代设备通常使用 Flow-Based Hashing：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Flow</span><br><span class="line">→ Hash</span><br><span class="line">→ Next-Hop / Path</span><br></pre></td></tr></table></figure>
+
+<p>而不是简单逐包轮流发送。</p>
+<p>对比 EtherChannel：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">EtherChannel：</span><br><span class="line">Flow → Member Link</span><br><span class="line"></span><br><span class="line">ECMP：</span><br><span class="line">Flow → L3 Next-Hop / Path</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="6-OSPF-Area、Area-0-与-ABR"><a href="#6-OSPF-Area、Area-0-与-ABR" class="headerlink" title="6. OSPF Area、Area 0 与 ABR"></a>6. OSPF Area、Area 0 与 ABR</h2><p>单 Area 过大可能导致：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LSA Flooding 范围大</span><br><span class="line">LSDB 大</span><br><span class="line">拓扑变化影响范围大</span><br><span class="line">SPF / 控制平面压力增加</span><br></pre></td></tr></table></figure>
+
+<p>因此 OSPF 可以划分多个 Area。</p>
+<h3 id="Area-0"><a href="#Area-0" class="headerlink" title="Area 0"></a>Area 0</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Area 0 = Backbone Area</span><br></pre></td></tr></table></figure>
+
+<p>标准多区域设计：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Area 10</span><br><span class="line">   ↓</span><br><span class="line">Area 0</span><br><span class="line">   ↓</span><br><span class="line">Area 20</span><br></pre></td></tr></table></figure>
+
+<p>非骨干 Area 原则上需要连接 Backbone Area。</p>
+<h3 id="ABR"><a href="#ABR" class="headerlink" title="ABR"></a>ABR</h3><p>ABR：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Area Border Router</span><br></pre></td></tr></table></figure>
+
+<p>同时连接多个 Area。</p>
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Area 10 —— R3 —— Area 0</span><br><span class="line">            ↑</span><br><span class="line">           ABR</span><br></pre></td></tr></table></figure>
+
+<p>ABR 按 Area 分别维护 LSDB：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Area 10 LSDB</span><br><span class="line">Area 0  LSDB</span><br></pre></td></tr></table></figure>
+
+<p>不会把所有 Area 的详细拓扑混成一个 LSDB。</p>
+<p>Area 10 内部发生变化：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Area 10 内 LSA Flooding</span><br><span class="line">        ↓</span><br><span class="line">ABR 更新 Area 10 LSDB</span><br><span class="line">        ↓</span><br><span class="line">重新计算</span><br><span class="line">        ↓</span><br><span class="line">如果跨区域可达性/Metric 发生变化</span><br><span class="line">        ↓</span><br><span class="line">向其他 Area 更新区域间路由信息</span><br></pre></td></tr></table></figure>
+
+<p>其他 Area 不需要知道：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Area 10 内部具体哪根链路断了</span><br><span class="line">内部从 R6 改走 R7</span><br><span class="line">内部 DR 是谁</span><br></pre></td></tr></table></figure>
+
+<p>但需要知道：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Prefix</span><br><span class="line">可达性</span><br><span class="line">区域间 Metric</span><br></pre></td></tr></table></figure>
+
+<p>因为这些信息会影响其他 Area 的选路。</p>
+<p>OSPFv2 中区域间 Prefix 信息会涉及 Type 3 Summary LSA。</p>
+<hr>
+<h2 id="7-Default-Route-与-OSPF-故障收敛"><a href="#7-Default-Route-与-OSPF-故障收敛" class="headerlink" title="7. Default Route 与 OSPF 故障收敛"></a>7. Default Route 与 OSPF 故障收敛</h2><p>出口 Router：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R4 → ISP</span><br></pre></td></tr></table></figure>
+
+<p>如果 R4 自己存在：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0.0.0.0/0 → ISP</span><br></pre></td></tr></table></figure>
+
+<p>可以：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> default-information originate</span><br></pre></td></tr></table></figure>
+
+<p>向 OSPF Domain 注入默认路由。</p>
+<p>普通：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">default-information originate</span><br></pre></td></tr></table></figure>
+
+<p>通常要求本机 RIB 已存在默认路由。</p>
+<p>而：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">default-information originate always</span><br></pre></td></tr></table></figure>
+
+<p>即使本机没有默认路由，也仍然向 OSPF 发布：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0.0.0.0/0</span><br></pre></td></tr></table></figure>
+
+<p>因此可能产生黑洞风险。</p>
+<h3 id="数据转发"><a href="#数据转发" class="headerlink" title="数据转发"></a>数据转发</h3><p>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R1 → R2 → R3 → R4 → ISP</span><br></pre></td></tr></table></figure>
+
+<p>R1：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">8.8.8.8</span><br><span class="line">→ 匹配 0.0.0.0/0</span><br><span class="line">→ Next-Hop R2</span><br></pre></td></tr></table></figure>
+
+<p>R2：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">8.8.8.8</span><br><span class="line">→ 查自己的 FIB</span><br><span class="line">→ Next-Hop R3</span><br></pre></td></tr></table></figure>
+
+<p>逐跳独立转发。</p>
+<p>LSA Flooding 时不会简单地每经过一个 Router 就把 LSA 中的“下一跳”改成本机。</p>
+<p>下一跳是本地 Router 根据 OSPF 拓扑计算得到的本地转发结果。</p>
+<h3 id="故障收敛"><a href="#故障收敛" class="headerlink" title="故障收敛"></a>故障收敛</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">故障</span><br><span class="line">→ LSA 更新</span><br><span class="line">→ Flooding</span><br><span class="line">→ LSDB 更新</span><br><span class="line">→ SPF</span><br><span class="line">→ RIB</span><br><span class="line">→ FIB</span><br><span class="line">→ 新路径</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="8-BFD"><a href="#8-BFD" class="headerlink" title="8. BFD"></a>8. BFD</h2><p>BFD：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Bidirectional Forwarding Detection</span><br><span class="line">双向转发检测</span><br></pre></td></tr></table></figure>
+
+<p>核心职责：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">快速检测转发路径是否存活</span><br></pre></td></tr></table></figure>
+
+<p>它不负责：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">计算 OSPF 路由</span><br><span class="line">运行 SPF</span><br><span class="line">生成 OSPF LSA</span><br></pre></td></tr></table></figure>
+
+<p>BFD 检测故障：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">BFD Down</span><br><span class="line">   ↓</span><br><span class="line">通知 OSPF</span><br><span class="line">   ↓</span><br><span class="line">OSPF Neighbor Down</span><br><span class="line">   ↓</span><br><span class="line">LSA 更新</span><br><span class="line">   ↓</span><br><span class="line">Flooding</span><br><span class="line">   ↓</span><br><span class="line">LSDB</span><br><span class="line">   ↓</span><br><span class="line">SPF</span><br><span class="line">   ↓</span><br><span class="line">RIB / FIB</span><br></pre></td></tr></table></figure>
+
+<p>BFD 可以服务：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">OSPF</span><br><span class="line">EIGRP</span><br><span class="line">BGP</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>BFD 不取代 OSPF Hello。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">OSPF Hello：</span><br><span class="line">发现/维护 OSPF Neighbor</span><br><span class="line">参与 OSPF 自身邻居机制</span><br><span class="line"></span><br><span class="line">BFD：</span><br><span class="line">快速检测路径是否还活着</span><br></pre></td></tr></table></figure>
+
+<p>核心：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BFD 负责快速发现故障</span><br><span class="line">OSPF 负责故障后的路由收敛</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="9-EIGRP：Metric、DUAL-与备用路径"><a href="#9-EIGRP：Metric、DUAL-与备用路径" class="headerlink" title="9. EIGRP：Metric、DUAL 与备用路径"></a>9. EIGRP：Metric、DUAL 与备用路径</h2><p>EIGRP 与 OSPF 的核心思路不同。</p>
+<p>OSPF：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LSA</span><br><span class="line">→ LSDB</span><br><span class="line">→ SPF / Dijkstra</span><br></pre></td></tr></table></figure>
+
+<p>EIGRP：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Neighbor</span><br><span class="line">→ 路由/距离信息</span><br><span class="line">→ Topology Table</span><br><span class="line">→ DUAL</span><br><span class="line">→ Successor / Feasible Successor</span><br></pre></td></tr></table></figure>
+
+<h3 id="默认-K-Values"><a href="#默认-K-Values" class="headerlink" title="默认 K Values"></a>默认 K Values</h3><p>经典 EIGRP 默认：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">K1 = 1</span><br><span class="line">K2 = 0</span><br><span class="line">K3 = 1</span><br><span class="line">K4 = 0</span><br><span class="line">K5 = 0</span><br></pre></td></tr></table></figure>
+
+<p>默认 Metric 主要考虑：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">K1 → Bandwidth</span><br><span class="line">K3 → Delay</span><br></pre></td></tr></table></figure>
+
+<p>即：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Minimum Bandwidth</span><br><span class="line">+</span><br><span class="line">Cumulative Delay</span><br></pre></td></tr></table></figure>
+
+<p>Bandwidth：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">路径相关接口 bandwidth 参数</span><br><span class="line">→ 取最小值</span><br></pre></td></tr></table></figure>
+
+<p>Delay：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">沿路径相关 Delay</span><br><span class="line">→ 累加</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">speed</span><br><span class="line">= 物理接口工作速率</span><br><span class="line"></span><br><span class="line">bandwidth</span><br><span class="line">= 协议计算使用的逻辑参考参数</span><br><span class="line"></span><br><span class="line">actual traffic</span><br><span class="line">= 当前真实业务流量</span><br></pre></td></tr></table></figure>
+
+<p><code>bandwidth</code> 通常不直接限制接口物理速率。</p>
+<h3 id="RD-x2F-FD-x2F-Successor"><a href="#RD-x2F-FD-x2F-Successor" class="headerlink" title="RD &#x2F; FD &#x2F; Successor"></a>RD &#x2F; FD &#x2F; Successor</h3><p>RD：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Reported Distance</span><br></pre></td></tr></table></figure>
+
+<p>表示：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">邻居告诉我：</span><br><span class="line">“我自己距离目标有多远”</span><br></pre></td></tr></table></figure>
+
+<p>FD：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Feasible Distance</span><br></pre></td></tr></table></figure>
+
+<p>表示本 Router 经某路径到目标的总 Metric。</p>
+<p>Successor：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当前到目标 Prefix 的最佳下一跳 Router</span><br></pre></td></tr></table></figure>
+
+<h3 id="Feasible-Successor"><a href="#Feasible-Successor" class="headerlink" title="Feasible Successor"></a>Feasible Successor</h3><p>FS：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Feasible Successor</span><br></pre></td></tr></table></figure>
+
+<p>是预先确认满足无环条件的备用下一跳。</p>
+<p>Feasibility Condition：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RD(candidate) &lt; FD(successor)</span><br></pre></td></tr></table></figure>
+
+<p>满足：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">→ 可以成为 Feasible Successor</span><br></pre></td></tr></table></figure>
+
+<p>Successor 故障且存在 FS：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Successor Down</span><br><span class="line">→ FS 快速接替</span><br><span class="line">→ 成为新的 Successor</span><br><span class="line">→ 重新评估剩余候选路径</span><br></pre></td></tr></table></figure>
+
+<p>不存在 FS：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Successor Down</span><br><span class="line">→ Route Active</span><br><span class="line">→ Query</span><br><span class="line">→ 邻居计算</span><br><span class="line">→ Reply</span><br><span class="line">→ 找到新路径</span><br><span class="line">→ Passive</span><br></pre></td></tr></table></figure>
+
+<p>EIGRP 中：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Passive</span><br><span class="line">= 正常稳定状态</span><br><span class="line"></span><br><span class="line">Active</span><br><span class="line">= 正在通过 DUAL Query/Reply 寻找路径</span><br></pre></td></tr></table></figure>
+
+<p>FS 不等于简单的“第二优路径”。</p>
+<p>必须满足：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RD(candidate) &lt; FD(successor)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="10-配置、Show-与故障排查"><a href="#10-配置、Show-与故障排查" class="headerlink" title="10. 配置、Show 与故障排查"></a>10. 配置、Show 与故障排查</h2><h3 id="OSPF-基础配置"><a href="#OSPF-基础配置" class="headerlink" title="OSPF 基础配置"></a>OSPF 基础配置</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> router-id 1.1.1.1</span><br><span class="line"> network 10.0.12.0 0.0.0.3 area 0</span><br><span class="line"> network 192.168.10.0 0.0.0.255 area 0</span><br></pre></td></tr></table></figure>
+
+<p>Wildcard：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 = 必须匹配</span><br><span class="line">1 = 不关心</span><br></pre></td></tr></table></figure>
+
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/30</span><br><span class="line">Mask     255.255.255.252</span><br><span class="line">Wildcard 0.0.0.3</span><br><span class="line"></span><br><span class="line">/24</span><br><span class="line">Mask     255.255.255.0</span><br><span class="line">Wildcard 0.0.0.255</span><br></pre></td></tr></table></figure>
+
+<p>OSPF <code>network</code> 命令本质：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">匹配本机 Interface IP</span><br><span class="line">→ 让接口参与指定 OSPF Area</span><br><span class="line">→ 相应接口 Prefix 进入 OSPF</span><br></pre></td></tr></table></figure>
+
+<p>终端 LAN 可以：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> passive-interface Ethernet0/2</span><br></pre></td></tr></table></figure>
+
+<p>使 Prefix 仍可发布，但不在该接口建立 OSPF Neighbor。</p>
+<h3 id="OSPF-Cost"><a href="#OSPF-Cost" class="headerlink" title="OSPF Cost"></a>OSPF Cost</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">interface Ethernet0/0</span><br><span class="line"> ip ospf cost 100</span><br></pre></td></tr></table></figure>
+
+<p>Reference Bandwidth：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">router ospf 1</span><br><span class="line"> auto-cost reference-bandwidth 100000</span><br></pre></td></tr></table></figure>
+
+<h3 id="EIGRP-基础配置示例"><a href="#EIGRP-基础配置示例" class="headerlink" title="EIGRP 基础配置示例"></a>EIGRP 基础配置示例</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">router eigrp 100</span><br><span class="line"> network 10.0.0.0 0.0.0.255</span><br></pre></td></tr></table></figure>
+
+<p>具体 named&#x2F;classic mode 等配置形式视 IOS&#x2F;平台而定。</p>
+<h3 id="OSPF-验证"><a href="#OSPF-验证" class="headerlink" title="OSPF 验证"></a>OSPF 验证</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">show ip ospf neighbor</span><br><span class="line">show ip ospf interface brief</span><br><span class="line">show ip ospf interface</span><br><span class="line">show ip ospf</span><br><span class="line">show ip route ospf</span><br><span class="line">show ip route</span><br><span class="line">show ip protocols</span><br></pre></td></tr></table></figure>
+
+<h3 id="EIGRP-验证"><a href="#EIGRP-验证" class="headerlink" title="EIGRP 验证"></a>EIGRP 验证</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">show ip eigrp neighbors</span><br><span class="line">show ip eigrp topology</span><br><span class="line">show ip route eigrp</span><br><span class="line">show ip protocols</span><br></pre></td></tr></table></figure>
+
+<h3 id="通用接口检查"><a href="#通用接口检查" class="headerlink" title="通用接口检查"></a>通用接口检查</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">show ip interface brief</span><br><span class="line">show interfaces</span><br><span class="line">show running-config</span><br></pre></td></tr></table></figure>
+
+<h3 id="连通性验证"><a href="#连通性验证" class="headerlink" title="连通性验证"></a>连通性验证</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ping &lt;destination&gt;</span><br><span class="line">traceroute &lt;destination&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="OSPF-常见排障逻辑"><a href="#OSPF-常见排障逻辑" class="headerlink" title="OSPF 常见排障逻辑"></a>OSPF 常见排障逻辑</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">1. Interface 是否 Up？</span><br><span class="line">        ↓</span><br><span class="line">2. IP / Mask 是否正确？</span><br><span class="line">        ↓</span><br><span class="line">3. OSPF 是否启用在正确接口？</span><br><span class="line">        ↓</span><br><span class="line">4. Area 是否匹配？</span><br><span class="line">        ↓</span><br><span class="line">5. Hello / Dead 是否匹配？</span><br><span class="line">        ↓</span><br><span class="line">6. Authentication 是否匹配？</span><br><span class="line">        ↓</span><br><span class="line">7. Neighbor State 是否正常？</span><br><span class="line">        ↓</span><br><span class="line">8. LSDB 是否获得目标信息？</span><br><span class="line">        ↓</span><br><span class="line">9. RIB 是否安装目标 Prefix？</span><br><span class="line">        ↓</span><br><span class="line">10. FIB / Next-Hop / ARP 是否正常？</span><br><span class="line">        ↓</span><br><span class="line">11. Ping / Traceroute 验证</span><br></pre></td></tr></table></figure>
+
+<p>不要因为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">R1# show ip ospf neighbor</span><br><span class="line">FULL</span><br></pre></td></tr></table></figure>
+
+<p>就判断：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“全网 OSPF 正常”</span><br></pre></td></tr></table></figure>
+
+<p>OSPF Neighbor 是本地链路上的关系。</p>
+<p>R1 与 R2 Full：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">只能证明 R1 ↔ R2 这一邻接正常</span><br></pre></td></tr></table></figure>
+
+<p>不能证明：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R2 ↔ R4</span><br><span class="line">R3 ↔ R4</span><br><span class="line">整个 OSPF Domain</span><br><span class="line">目标 Prefix 的发布</span><br></pre></td></tr></table></figure>
+
+<p>全部正常。</p>
+<hr>
+<h1 id="V5-最终核心链"><a href="#V5-最终核心链" class="headerlink" title="V5 最终核心链"></a>V5 最终核心链</h1><p>OSPF：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Hello</span><br><span class="line">→ Neighbor</span><br><span class="line">→ LSA</span><br><span class="line">→ LSDB</span><br><span class="line">→ SPF / Dijkstra</span><br><span class="line">→ Cost</span><br><span class="line">→ RIB</span><br><span class="line">→ FIB</span><br><span class="line">→ Forwarding</span><br></pre></td></tr></table></figure>
+
+<p>多区域：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Area</span><br><span class="line">→ 限制详细拓扑信息传播范围</span><br><span class="line">→ ABR 连接不同 Area</span><br><span class="line">→ Area 0 作为 Backbone</span><br></pre></td></tr></table></figure>
+
+<p>故障：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Failure</span><br><span class="line">→ Detection</span><br><span class="line">→ LSA Flooding</span><br><span class="line">→ LSDB</span><br><span class="line">→ SPF</span><br><span class="line">→ RIB/FIB</span><br><span class="line">→ Convergence</span><br></pre></td></tr></table></figure>
+
+<p>BFD：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Fast Failure Detection</span><br><span class="line">→ 通知 Routing Protocol</span><br><span class="line">→ Routing Protocol 完成收敛</span><br></pre></td></tr></table></figure>
+
+<p>EIGRP：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Neighbor</span><br><span class="line">→ Topology Table</span><br><span class="line">→ DUAL</span><br><span class="line">→ RD / FD</span><br><span class="line">→ Successor</span><br><span class="line">→ Feasible Successor</span><br></pre></td></tr></table></figure>
+
+<p>Feasibility Condition：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RD(candidate) &lt; FD(successor)</span><br></pre></td></tr></table></figure>
+
+<p>一句话总结：</p>
+<blockquote>
+<p>OSPF 通过 LSA 建立拓扑视图，再由 SPF 根据 Cost 计算最短路径；EIGRP 通过邻居通告和 DUAL 选择 Successor，并利用 Feasible Success</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://laporte12138.github.io">Laporte</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://laporte12138.github.io/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V5%EF%BC%9AIGP%20%E8%B7%AF%E7%94%B1%E4%BD%93%E7%B3%BB%20%E2%80%94%E2%80%94%20OSPF%E3%80%81ECMP%E3%80%81BFD%20%E4%B8%8E%20EIGRP/">https://laporte12138.github.io/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V5%EF%BC%9AIGP%20%E8%B7%AF%E7%94%B1%E4%BD%93%E7%B3%BB%20%E2%80%94%E2%80%94%20OSPF%E3%80%81ECMP%E3%80%81BFD%20%E4%B8%8E%20EIGRP/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://laporte12138.github.io" target="_blank">宇宙空间栈</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CCIE/">CCIE</a><a class="post-meta__tags" href="/tags/OSPF/">OSPF</a><a class="post-meta__tags" href="/tags/EIGRP/">EIGRP</a><a class="post-meta__tags" href="/tags/ECMP/">ECMP</a><a class="post-meta__tags" href="/tags/BFD/">BFD</a></div><div class="post_share"><div class="social-share" data-image="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V6%EF%BC%9ABGP%20%E4%B8%8E%20Route%20Policy/"><img class="prev-cover" src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">【网络体系搭建】V6：BGP与Router Policy</div></div></a></div><div class="next-post pull-right"><a href="/2026/08/26/IDC%E5%8F%8C%E5%87%BA%E5%8F%A3BGP%E6%B5%81%E9%87%8F%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/"><img class="next-cover" src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20260826002007.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">IDC网络双出口BGP流量工程实践</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2026/08/26/IDC%E5%8F%8C%E5%87%BA%E5%8F%A3BGP%E6%B5%81%E9%87%8F%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/" title="IDC网络双出口BGP流量工程实践"><img class="cover" src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/20260826002007.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-26</div><div class="title">IDC网络双出口BGP流量工程实践</div></div></a></div><div><a href="/2026/08/25/%E7%BD%91%E7%BB%9C%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1./" title="网络工程师知识图谱（持续更新中）"><img class="cover" src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1-22092609294bE.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="title">网络工程师知识图谱（持续更新中）</div></div></a></div><div><a href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V1%EF%BC%9AEthernet%E3%80%81MAC%E3%80%81ARP-%E4%B8%8E%E4%B8%80%E6%AC%A1-Ping-%E7%9A%84%E5%AE%8C%E6%95%B4%E8%BF%87%E7%A8%8B/" title="【网络体系搭建】V1：Ethernet, MAC, ARP与一次Ping的完整过程"><img class="cover" src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-02</div><div class="title">【网络体系搭建】V1：Ethernet, MAC, ARP与一次Ping的完整过程</div></div></a></div><div><a href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V2%EF%BC%9AVLAN%E5%92%8CSTP/" title="【网络体系搭建】V2：VLAN和STP"><img class="cover" src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-02</div><div class="title">【网络体系搭建】V2：VLAN和STP</div></div></a></div><div><a href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V3%EF%BC%9ASVI%E3%80%81Inter-VLAN%20Routing%20%E4%B8%8E%20FHRP%20/" title="【网络体系搭建】V3：SVI, Inter-VLAN Routing和FHRP"><img class="cover" src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-02</div><div class="title">【网络体系搭建】V3：SVI, Inter-VLAN Routing和FHRP</div></div></a></div><div><a href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V4%EF%BC%9AEtherChannel%20%20Port-Channel%20%20LACP/" title="【网络体系搭建】V4：EtherChannel和LACP"><img class="cover" src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-02</div><div class="title">【网络体系搭建】V4：EtherChannel和LACP</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/微信图片_20220406195033.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Laporte</div><div class="author-info__description">从不偏科</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Laporte12138" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="联系我"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://Laporte12138.github.io" target="_blank" title="主页"><i class="fa-solid fa-house"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Work-life balence</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE"><span class="toc-text">1. 为什么需要动态路由协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-OSPF-Neighbor%E3%80%81Hello-%E4%B8%8E-Router-ID"><span class="toc-text">2. OSPF Neighbor、Hello 与 Router ID</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hello"><span class="toc-text">Hello</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Router-ID"><span class="toc-text">Router ID</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-OSPF-Neighbor-State%E3%80%81DR-x2F-BDR-%E4%B8%8E-LSDB-%E5%90%8C%E6%AD%A5"><span class="toc-text">3. OSPF Neighbor State、DR&#x2F;BDR 与 LSDB 同步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DBD-x2F-LSR-x2F-LSU-x2F-LSAck"><span class="toc-text">DBD &#x2F; LSR &#x2F; LSU &#x2F; LSAck</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Broadcast-Network-%E4%B8%AD%E7%9A%84-DR-x2F-BDR"><span class="toc-text">Broadcast Network 中的 DR&#x2F;BDR</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-LSA%E3%80%81LSDB%E3%80%81SPF%E3%80%81RIB-%E4%B8%8E-FIB"><span class="toc-text">4. LSA、LSDB、SPF、RIB 与 FIB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LSA"><span class="toc-text">LSA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LSDB"><span class="toc-text">LSDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SPF"><span class="toc-text">SPF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RIB"><span class="toc-text">RIB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FIB"><span class="toc-text">FIB</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-OSPF-Cost%E3%80%81%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E4%B8%8E-ECMP"><span class="toc-text">5. OSPF Cost、最短路径与 ECMP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Path-Cost"><span class="toc-text">Path Cost</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ECMP"><span class="toc-text">ECMP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-OSPF-Area%E3%80%81Area-0-%E4%B8%8E-ABR"><span class="toc-text">6. OSPF Area、Area 0 与 ABR</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Area-0"><span class="toc-text">Area 0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ABR"><span class="toc-text">ABR</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-Default-Route-%E4%B8%8E-OSPF-%E6%95%85%E9%9A%9C%E6%94%B6%E6%95%9B"><span class="toc-text">7. Default Route 与 OSPF 故障收敛</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%BD%AC%E5%8F%91"><span class="toc-text">数据转发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%85%E9%9A%9C%E6%94%B6%E6%95%9B"><span class="toc-text">故障收敛</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-BFD"><span class="toc-text">8. BFD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-EIGRP%EF%BC%9AMetric%E3%80%81DUAL-%E4%B8%8E%E5%A4%87%E7%94%A8%E8%B7%AF%E5%BE%84"><span class="toc-text">9. EIGRP：Metric、DUAL 与备用路径</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4-K-Values"><span class="toc-text">默认 K Values</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RD-x2F-FD-x2F-Successor"><span class="toc-text">RD &#x2F; FD &#x2F; Successor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Feasible-Successor"><span class="toc-text">Feasible Successor</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E9%85%8D%E7%BD%AE%E3%80%81Show-%E4%B8%8E%E6%95%85%E9%9A%9C%E6%8E%92%E6%9F%A5"><span class="toc-text">10. 配置、Show 与故障排查</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OSPF-%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE"><span class="toc-text">OSPF 基础配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OSPF-Cost"><span class="toc-text">OSPF Cost</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EIGRP-%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE%E7%A4%BA%E4%BE%8B"><span class="toc-text">EIGRP 基础配置示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OSPF-%E9%AA%8C%E8%AF%81"><span class="toc-text">OSPF 验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EIGRP-%E9%AA%8C%E8%AF%81"><span class="toc-text">EIGRP 验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E6%8E%A5%E5%8F%A3%E6%A3%80%E6%9F%A5"><span class="toc-text">通用接口检查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E9%80%9A%E6%80%A7%E9%AA%8C%E8%AF%81"><span class="toc-text">连通性验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OSPF-%E5%B8%B8%E8%A7%81%E6%8E%92%E9%9A%9C%E9%80%BB%E8%BE%91"><span class="toc-text">OSPF 常见排障逻辑</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#V5-%E6%9C%80%E7%BB%88%E6%A0%B8%E5%BF%83%E9%93%BE"><span class="toc-text">V5 最终核心链</span></a></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V1%EF%BC%9AEthernet%E3%80%81MAC%E3%80%81ARP-%E4%B8%8E%E4%B8%80%E6%AC%A1-Ping-%E7%9A%84%E5%AE%8C%E6%95%B4%E8%BF%87%E7%A8%8B/" title="【网络体系搭建】V1：Ethernet, MAC, ARP与一次Ping的完整过程"><img src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【网络体系搭建】V1：Ethernet, MAC, ARP与一次Ping的完整过程"/></a><div class="content"><a class="title" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V1%EF%BC%9AEthernet%E3%80%81MAC%E3%80%81ARP-%E4%B8%8E%E4%B8%80%E6%AC%A1-Ping-%E7%9A%84%E5%AE%8C%E6%95%B4%E8%BF%87%E7%A8%8B/" title="【网络体系搭建】V1：Ethernet, MAC, ARP与一次Ping的完整过程">【网络体系搭建】V1：Ethernet, MAC, ARP与一次Ping的完整过程</a><time datetime="2026-10-02T03:33:59.000Z" title="发表于 2026-10-02 11:33:59">2026-10-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V2%EF%BC%9AVLAN%E5%92%8CSTP/" title="【网络体系搭建】V2：VLAN和STP"><img src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【网络体系搭建】V2：VLAN和STP"/></a><div class="content"><a class="title" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V2%EF%BC%9AVLAN%E5%92%8CSTP/" title="【网络体系搭建】V2：VLAN和STP">【网络体系搭建】V2：VLAN和STP</a><time datetime="2026-10-02T03:33:59.000Z" title="发表于 2026-10-02 11:33:59">2026-10-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V3%EF%BC%9ASVI%E3%80%81Inter-VLAN%20Routing%20%E4%B8%8E%20FHRP%20/" title="【网络体系搭建】V3：SVI, Inter-VLAN Routing和FHRP"><img src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【网络体系搭建】V3：SVI, Inter-VLAN Routing和FHRP"/></a><div class="content"><a class="title" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V3%EF%BC%9ASVI%E3%80%81Inter-VLAN%20Routing%20%E4%B8%8E%20FHRP%20/" title="【网络体系搭建】V3：SVI, Inter-VLAN Routing和FHRP">【网络体系搭建】V3：SVI, Inter-VLAN Routing和FHRP</a><time datetime="2026-10-02T03:33:59.000Z" title="发表于 2026-10-02 11:33:59">2026-10-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V4%EF%BC%9AEtherChannel%20%20Port-Channel%20%20LACP/" title="【网络体系搭建】V4：EtherChannel和LACP"><img src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【网络体系搭建】V4：EtherChannel和LACP"/></a><div class="content"><a class="title" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V4%EF%BC%9AEtherChannel%20%20Port-Channel%20%20LACP/" title="【网络体系搭建】V4：EtherChannel和LACP">【网络体系搭建】V4：EtherChannel和LACP</a><time datetime="2026-10-02T03:33:59.000Z" title="发表于 2026-10-02 11:33:59">2026-10-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V6%EF%BC%9ABGP%20%E4%B8%8E%20Route%20Policy/" title="【网络体系搭建】V6：BGP与Router Policy"><img src="//173827985-1313377273.cos.ap-beijing.myqcloud.com/img11496/1684829193013613.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【网络体系搭建】V6：BGP与Router Policy"/></a><div class="content"><a class="title" href="/2026/10/02/%E3%80%90%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E6%90%AD%E5%BB%BA%E3%80%91V6%EF%BC%9ABGP%20%E4%B8%8E%20Route%20Policy/" title="【网络体系搭建】V6：BGP与Router Policy">【网络体系搭建】V6：BGP与Router Policy</a><time datetime="2026-10-02T03:33:59.000Z" title="发表于 2026-10-02 11:33:59">2026-10-02</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Laporte</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">宇宙空间栈</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
